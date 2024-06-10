@@ -1,0 +1,27 @@
+.pdf-name {
+    font-size: 2em;
+}
+
+.pdf-desc {
+    font-size: 1.2em;
+}
+
+.pdf-subtitle {
+    display: flex;
+    align-items: center;
+}
+
+.pdf-subtitle .star {
+    display: flex;
+    align-items: center;
+    color: rgb(236, 202, 10);
+    margin-right: 0.3em;
+}
+
+@media (max-width: 1100px) {
+
+    .pdf-name {
+        font-size: 1.4em;
+    }
+
+}

@@ -1,0 +1,7 @@
+.filter-btn-card {
+    height: 2em !important;
+    background-color: #FFF !important;
+    border-radius: 2em !important;
+    padding: 0.2em 1em !important;
+    cursor: pointer !important;
+}

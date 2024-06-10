@@ -1,0 +1,454 @@
+@import url('./assets/fonts/fonts.css');
+
+:root {
+    --color01: #93278F;
+    --color02: #F33099;
+    --color03: #350099;
+    --color04: #6015CF;
+}
+
+* {
+    font-family: 'Juzif', serif !important;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0px !important;
+    padding: 0px !important;
+    background-color: #e4e9f0 !important;
+}
+
+#scroll-principal {
+    overflow-x: hidden !important;
+}
+
+@media (min-width: 500px) {
+    ::-webkit-scrollbar {
+        position: absolute !important;
+        width: 5px !important;
+        height: 0px !important;
+        background-color: transparent !important;
+    }
+    ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 10px !important;
+        border-radius: 10px !important;
+        background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+}
+
+@media (max-width: 500px) {
+    ::-webkit-scrollbar {
+        position: absolute !important;
+        width: 0px !important;
+        height: 0px !important;
+        background-color: transparent !important;
+    }
+    ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 0px !important;
+        border-radius: 0px !important;
+        background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+}
+
+/* ANTD */
+
+.ant-btn-primary {
+    background-color: var(--color02) !important;
+}
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+    background-color: var(--color04) !important;
+}
+
+.ant-btn-link {
+    color: #000000a1 !important;
+}
+.ant-btn-link:hover, .ant-btn-link:focus {
+    color: var(--color01) !important;
+}
+
+.ant-btn-default:hover, .ant-btn-default:focus {
+    color: var(--color04) !important;
+    border-color: var(--color04) !important;
+}
+
+.painel-head-button:hover, .painel-head-button:focus {
+    border-color: #FFF !important;
+    color: #FFF !important;
+    box-shadow: none !important;
+}
+
+/* LOGIN */
+
+.content-login {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.col-login {
+    background: linear-gradient(to right bottom, var(--color01), var(--color03));
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-login {
+    color: #FFF;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.subtitle-login {
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+.card-login {
+    background-color: #FFF !important;
+    width: 260px !important;
+    border-radius: 0.5rem;
+    box-shadow: 0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.05);
+    padding: 20px 30px !important;
+}
+
+.col-title-login {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    background-color: #FFF;
+    height: 100vh;
+    box-shadow: 1px 1px 15px #0000006e;
+    padding: 20px;
+    z-index: 2;
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    text-align: center;
+    font-size: 30px;
+    border-bottom: 1px solid #00000019;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-btn {
+    border-radius: 0.5rem;
+    padding: 6px;
+    display: flex;
+    align-items: center !important;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 4px !important;
+}
+
+.sidebar-btn:hover {
+    background-color: #00000019 !important;
+}
+
+.sidebar-btn.active {
+    background-color: #ffffff19 !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-btn.active .sidebar-btn-icon {
+    background-color: var(--color02) !important;
+}
+
+.sidebar-btn-icon {
+    background-color: var(--color01) !important;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    border-radius: 0.5rem;
+    box-shadow: 0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    transition: 0.2s;
+}
+
+.sidebar-btn-text {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* NAVBAR */
+
+.navbar {
+    background-color: #FFF;
+    height: 60px;
+    box-shadow: 1px 1px 15px #0000006e;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: end;
+    z-index: 1;
+}
+
+.navbar-button {
+    height: 40px !important;
+    width: 40px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px !important;
+}
+
+/* LANDING */
+
+.navbar-landing {
+    height: 60px;
+    padding: 10px 80px;
+    position: fixed;
+    width: 100%;
+    z-index: 10 !important;
+    transition: 0.2s;
+}
+
+.navbar-landing.active {
+    background-color: #FFF;
+    box-shadow: 0px 1px 15px #00000079;
+}
+
+.icon-menu {
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.navbar-landing.active .icon-menu {
+    color: var(--color01);
+}
+
+.menu-item {
+    color: #FFF !important;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    transition: 0.2s;
+    padding: 10px;
+    border-bottom: transparent 2px solid;
+    cursor: pointer;
+}
+
+.menu-item-side {
+    color: var(--color01) !important;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    transition: 0.2s;
+    padding: 10px;
+    border-bottom: transparent 2px solid;
+    cursor: pointer;
+}
+
+.navbar-landing.active .menu-item {
+    color: var(--color01) !important;
+}
+
+.menu-item.active, .menu-item:hover {
+    color: #FFF !important;
+    border-bottom-color: #FFF;
+}
+
+.navbar-landing.active .menu-item.active, .navbar-landing.active .menu-item:hover {
+    color: var(--color01) !important;
+    border-bottom-color: var(--color01);
+}
+
+.row-landing {
+    padding: 80px 80px;
+    height: 100vh;
+    background: linear-gradient(to right bottom, var(--color01), var(--color03));
+    background-color: var(--color01);
+}
+
+.row-landing-color {
+    padding: 80px 80px;
+    background: linear-gradient(to right bottom, var(--color01), var(--color03));
+}
+
+.row-landing-white {
+    padding: 80px 80px;
+    background-color: #FFF;
+}
+
+.title-1 {
+    color: #FFF;
+    font-weight: 900 !important;
+    font-size: 50px;
+    margin-bottom: -30px;
+}
+.title-2 {
+    color: #FFF;
+    font-size: 47px;
+}
+.title-3 {
+    color: #FFF;
+    font-size: 36px;
+    font-weight: 100 !important;
+    margin-bottom: 20px;
+}
+
+.title-1-white {
+    text-transform: uppercase;
+    font-size: 30px;
+    margin-bottom: -20px;
+}
+.title-2-white {
+    text-transform: uppercase;
+    font-size: 30px;
+    color: var(--color01);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.title-3-white {
+    font-size: 16px;
+}
+
+.title-3-white+.title-3-white {
+    margin-top: 10px;
+}
+
+.title-1-color {
+    text-transform: uppercase;
+    font-size: 30px;
+    margin-bottom: -20px;
+    color: #fff;
+}
+.title-2-color {
+    text-transform: uppercase;
+    font-size: 30px;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.title-3-color {
+    font-size: 16px;
+    color: #fff;
+}
+
+.title-3-color+.title-3-color {
+    margin-top: 10px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.menus-out {
+    display: none !important;
+}
+
+.gll-delete {
+    font-size: 1.2em !important;
+    margin-top: 0.8em;
+    color: #00000059;
+    transition: 0.2s;
+}
+
+.gll-delete:hover {
+    color: var(--color01);
+}
+
+@media (max-width: 1100px) {
+    .row-landing, .row-landing-color, .row-landing-white, .navbar-landing {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    .menus {
+        display: none;
+    }
+    .menus-out {
+        display: block !important;
+    }
+}
+
+/* DASHBOARD */
+
+.content-page {
+    background: linear-gradient(to right bottom, var(--color01), var(--color03));
+    height: 100vh;
+    overflow: hidden;
+}
+
+.page-content {
+    padding: 20px;
+}
+
+.card-breadcrumb .ant-card-body {
+    height: 50px !important;
+}
+
+.card-row-breadcrumb {
+    height: 100% !important;
+}
+
+.card-row-breadcrumb .ant-col {
+    height: 22px !important;
+}
+
+.card-page {
+    margin-top: 20px !important;
+}
+
+.ant-carousel button {
+    color: var(--color02) !important;
+}
+
+.ant-carousel li button {
+    background-color: var(--color02) !important;
+}
+
+.rate-title {
+    font-size: 4em;
+    font-weight: 600;
+}
+
+.ant-rate.rate {
+    color: var(--color01) !important;
+}
+
+.ant-rate.rate.rate-small {
+    font-size: 1em !important;
+    color: var(--color03) !important;
+}
+
+.ant-form-item-label {
+    padding-bottom: 0em !important;
+}
+
+.ant-form-item-label label {
+    white-space: nowrap !important;
+    text-wrap: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    display: inline-block !important;
+}
+
+.no-select {
+    -webkit-user-select:none;  
+    -moz-user-select:none;     
+    -ms-user-select:none;      
+    user-select:none;  
+}
+
+.i9-qrcode {
+    background-color: #FFF;
+    padding: 1em;
+    border: var(--color01) 5px solid;
+}

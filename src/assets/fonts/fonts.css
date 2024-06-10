@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Juzif Black';
+    src: local('Tangerine'), url('./Juzif/Juzif\ Black.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif Bold';
+    src: local('Juzif'), url('./Juzif/Juzif\ Bold.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif Book';
+    src: local('Juzif'), url('./Juzif/Juzif\ Book.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif ExtraLight';
+    src: local('Juzif'), url('./Juzif/Juzif\ ExtraLight.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif Light';
+    src: local('Juzif'), url('./Juzif/Juzif\ Light.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif Medium';
+    src: local('Juzif'), url('./Juzif/Juzif\ Medium.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif';
+    font-weight: normal;
+    font-style: normal;
+    src: local('Juzif'), url('./Juzif/Juzif\ Regular.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Juzif Thin';
+    src: local('Juzif'), url('./Juzif/Juzif\ Thin.otf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Typografix';
+    src: local('Juzif'), url('./Typografix/Typografix-demo.otf') format('truetype');
+}

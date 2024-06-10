@@ -1,0 +1,32 @@
+.page-default-breadcrumb a, .page-default-breadcrumb a:hover, .page-default-breadcrumb a:focus,
+.page-default-breadcrumb .ant-breadcrumb-link,
+.page-default-breadcrumb .ant-breadcrumb-separator {
+    color: rgb(255, 255, 255);
+}
+
+
+.page-default-padding {
+    padding: 0em 1em;
+}
+
+.page-default-page {
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 10em;
+}
+
+.page-default-button {
+    background-color: transparent !important;
+    color: #ffffffab !important;
+    font-size: 1.4em;
+    padding: 0em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-default-button:hover, .page-default-button:focus {
+    color: #fff !important;
+}

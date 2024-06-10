@@ -1,0 +1,25 @@
+.card-kpi-small {
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    height: 6em;
+    padding: 1em;
+}
+
+.card-kpi-small-title {
+    color: #FFF;
+    font-size: 1.1em;
+}
+
+.card-kpi-small-icon {
+    font-size: 3em;
+    color: #FFF;
+}
+
+.card-kpi-small-value {
+    font-size: 2em;
+    color: #FFF;
+}
