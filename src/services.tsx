@@ -47,7 +47,7 @@ export const setProfile = (value: string) => {
 };
 
 export const getProfile = () => {
-  return localStorage.getItem("PROFILE");
+  return localStorage.getItem("PROFILE") || "0";
 };
 
 export const delToken = () => {
@@ -94,7 +94,7 @@ export const GET_API = (url: string) => {
     headers: {
       Authorization: "Bearer " + getToken(),
       Accept: "application/json",
-      Profile: getProfile() || "0",
+      Profile: JSON.parse(getProfile()).id || "0",
     },
   });
 };

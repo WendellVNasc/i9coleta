@@ -2,7 +2,13 @@ import { Col, Form, Image, Input, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 
 import logo from "../../assets/images/logos/Logo Completa/PNG_.Completa - Fundo Transparente.png";
-import { GET_API, POST_CATCH, getToken } from "../../services";
+import {
+  GET_API,
+  POST_CATCH,
+  getToken,
+  setConfig,
+  setProfile,
+} from "../../services";
 import { useNavigate } from "react-router-dom";
 
 const ProfileModal: React.FC = () => {
@@ -10,7 +16,7 @@ const ProfileModal: React.FC = () => {
   const [form] = Form.useForm();
   const [url, setUrl] = useState(window.location.href.split("/")[4]);
   const handleProfileSelect = (profile: string) => {};
-  const [profiles, setProfiles] = useState([{id:1, type:""}]);
+  const [profiles, setProfiles] = useState([{ id: 1, type: "" }]);
 
   useEffect(() => {
     if (getToken() != null) {
@@ -19,10 +25,15 @@ const ProfileModal: React.FC = () => {
           POST_CATCH();
         }
         response.json().then((data) => {
-          let result = Object.keys(data.data.profiles).map((key) => [key, data.data.profiles[key]]);
-          console.log(data.data.profiles);
+          let profiles = data.data.profiles;
 
-          // setProfiles(data.profiles);
+          if (data.data.profiles.length === 1) {
+            setProfile(JSON.stringify(profiles[0]));
+            setConfig(JSON.stringify(profiles[0].permissions));
+            navigate("/painel");
+          }
+
+          setProfiles(profiles);
         });
       });
     } else {
@@ -46,7 +57,7 @@ const ProfileModal: React.FC = () => {
               <Form.Item name="profile" label="Perfil">
                 <Select onChange={handleProfileSelect}>
                   {profiles.map((profile: any) => (
-                    <Select.Option key={profile.id} value={profile.id}>
+                    <Select.Option key={profile.id}>
                       {profile.type}
                     </Select.Option>
                   ))}
