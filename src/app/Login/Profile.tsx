@@ -1,50 +1,63 @@
+import { Col, Form, Image, Input, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 
-interface ProfileSelectionProps {
-  setProfile: (profileId: string) => void;
-}
+import logo from "../../assets/images/logos/Logo Completa/PNG_.Completa - Fundo Transparente.png";
+import { GET_API, POST_CATCH, getToken } from "../../services";
+import { useNavigate } from "react-router-dom";
 
-const ProfileSelection: React.FC<ProfileSelectionProps> = ({ setProfile }) => {
-  const [selectedProfileId, setSelectedProfileId] = useState("");
+const ProfileModal: React.FC = () => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const [url, setUrl] = useState(window.location.href.split("/")[4]);
+  const handleProfileSelect = (profile: string) => {};
+  const [profiles, setProfiles] = useState([{id:1, type:""}]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch("/me");
-        const data = await response.json();
-        // Assuming the response data contains an array of profiles
-        // You can modify this part based on the actual response structure
-        const profiles = data.profiles;
-        // Update the selected profile with the first profile in the array
-        setSelectedProfileId(profiles[0].id);
-        setProfile(profiles[0].id);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+    if (getToken() != null) {
+      GET_API("/me").then((response) => {
+        if (!response.ok) {
+          POST_CATCH();
+        }
+        response.json().then((data) => {
+          let result = Object.keys(data.data.profiles).map((key) => [key, data.data.profiles[key]]);
+          console.log(data.data.profiles);
 
-    fetchUserData();
-  }, []);
+          // setProfiles(data.profiles);
+        });
+      });
+    } else {
+      navigate("/");
+    }
+  }, [url]);
 
-  const handleProfileSelection = (profileId: string) => {
-    setSelectedProfileId(profileId);
-    setProfile(profileId);
-  };
+  const onSend = async (values: any) => {};
+
+  const handleConfirm = () => {};
 
   return (
-    <div>
-      <h2>Select a Profile</h2>
-      <button onClick={() => handleProfileSelection("profile1")}>
-        Profile 1
-      </button>
-      <button onClick={() => handleProfileSelection("profile2")}>
-        Profile 2
-      </button>
-      <button onClick={() => handleProfileSelection("profile3")}>
-        Profile 3
-      </button>
-    </div>
+    <Row className="content-login">
+      <Col span={24} className="col-login">
+        <div className="card-login">
+          <Row>
+            <Col span={24}>
+              <Image preview={false} src={logo} />
+            </Col>
+            <Form style={{ width: "100%" }} onFinish={onSend} form={form}>
+              <Form.Item name="profile" label="Perfil">
+                <Select onChange={handleProfileSelect}>
+                  {profiles.map((profile: any) => (
+                    <Select.Option key={profile.id} value={profile.id}>
+                      {profile.type}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Form>
+          </Row>
+        </div>
+      </Col>
+    </Row>
   );
 };
 
-export default ProfileSelection;
+export default ProfileModal;

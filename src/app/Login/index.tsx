@@ -12,6 +12,8 @@ import {
   setToken,
 } from "../../services";
 
+import ProfileModal from "./Profile";
+
 // ICONES
 import { IoIdCardOutline, IoLockOpenOutline } from "react-icons/io5";
 
@@ -39,8 +41,8 @@ const Login = () => {
     });
     let data: LoginResponse = await response.json();
     if (response.ok) {
-      setToken(data.token);      
-      navigate("/painel");
+      setToken(data.token);        
+      navigate("/profile");
     } else {
       message.error("Usuário ou senha inválidos!");
     }
