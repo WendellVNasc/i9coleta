@@ -39,20 +39,20 @@ const Painel = () => {
 
     useEffect(() => {
         
-        if (getToken() != null) {
-            POST_API('/credential/verify.php', { token: getToken() }).then(rs => rs.json()).then(res => {
-                if (!res.return) { navigate('/login') } else {
-                    setConfig(res.per)
-                }
-            }).catch(POST_CATCH)
-            POST_API('/credential/search.php', { token: getToken(), type: 'self' }).then(rs => rs.json()).then(res => {
-                if (res.return) {
-                    setUser(res.data)
-                }
-            }).catch(POST_CATCH)
-        } else { 
-            navigate('/login')
-        }
+        // if (getToken() != null) {
+        //     POST_API('/credential/verify.php', { token: getToken() }).then(rs => rs.json()).then(res => {
+        //         if (!res.return) { navigate('/login') } else {
+        //             setConfig(res.per)
+        //         }
+        //     }).catch(POST_CATCH)
+        //     POST_API('/credential/search.php', { token: getToken(), type: 'self' }).then(rs => rs.json()).then(res => {
+        //         if (res.return) {
+        //             setUser(res.data)
+        //         }
+        //     }).catch(POST_CATCH)
+        // } else { 
+        //     navigate('/login')
+        // }
 
     }, [url]);
 
