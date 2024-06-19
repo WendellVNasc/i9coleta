@@ -17,6 +17,7 @@ import { TableReturnButton } from "../../../../../components/Table/buttons";
 
 // SERVIÇOS
 import {
+  GET_API,
   POST_API,
   POST_CATCH,
   PageDefaultProps,
@@ -36,6 +37,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
 
   // PARAMETROS
   const { ID } = useParams();
+  console.log(ID);
 
   // ESTADOS DO COMPONENTE
   const [load, setLoad] = useState(true);
@@ -52,19 +54,17 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
       setLoad(false);
     } else {
       setLoad(true);
-      POST_API(`/${path}/search.php`, {
-        token: getToken(),
-        filter: JSON.stringify({ ID: ID }),
-        type,
-      })
-        .then((rs) => rs.json())
-        .then((res) => {
-          if (res.return) {
-            form.setFieldsValue(res.data[0]);
-            setPhoto(res.data[0]["PHOTO"]);
+      GET_API(`/${path}/${ID}`)
+        .then((rs) => {
+          if (rs.ok) {
+            return rs.json();
           } else {
-            Modal.warning({ title: "Algo deu errado", content: res.msg });
+            Modal.warning({ title: "Algo deu errado", content: rs.statusText });
           }
+        })
+        .then((res) => {
+          form.setFieldsValue(res.data);
+          setPhoto(res.data.photo);
         })
         .catch(POST_CATCH)
         .finally(() => setLoad(false));
@@ -74,20 +74,19 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
   // FUNÇÃO SALVAR
   const onSend = (values: any) => {
     setLoadButton(true);
-    values.ID = ID;
-    values.PHOTO = fileList[0];
-    let url =  `/${path}`;
-    POST_API(`/${path}/save.php`, {      
-      
-    })
-      .then((rs) => rs.json())
-      .then((res) => {
-        if (res.return) {
-          message.success(res.msg);
-          navigate("..");
+    values.photo = photo;
+    POST_API(`/${path}`, values, ID)
+      .then((rs) => {
+        if (rs.ok) {
+          return rs.json();
         } else {
-          Modal.warning({ title: "Algo deu errado", content: res.msg });
+          Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
+      })
+      .then((data) => {
+        console.log(data);
+        // message.success(res.msg);
+        navigate("..");
       })
       .catch(POST_CATCH)
       .finally(() => setLoadButton(false));
@@ -120,7 +119,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="NAME"
+                      name="name"
                       label="Modelo"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -131,7 +130,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="M3"
+                      name="m3"
                       label="Capacidade em toneladas"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -146,7 +145,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_A"
+                      name="letter_a"
                       label="Medida A"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -161,7 +160,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_B"
+                      name="letter_b"
                       label="Medida B"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -176,7 +175,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_C"
+                      name="letter_c"
                       label="Medida C"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -191,7 +190,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_D"
+                      name="letter_d"
                       label="Medida D"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -206,7 +205,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_E"
+                      name="letter_e"
                       label="Medida E"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -221,7 +220,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="LETTER_F"
+                      name="letter_f"
                       label="Medida F"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -245,7 +244,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                     />
                   </Col>
                   <Col xs={24} md={20}>
-                    <Form.Item name="PHOTO" label="Foto">
+                    <Form.Item name="photo" label="Foto">
                       <ImgCrop>
                         <Upload
                           accept="image/*"

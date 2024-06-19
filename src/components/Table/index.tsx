@@ -73,7 +73,7 @@ function Table({
     setTotal: any,
     setLoad: any
   ) => {
-    setLoad(true);   
+    setLoad(true);
 
     console.log(filter, defaultFilter);
     let url = `/${path}?page=${pagination.current}&per_page=${
@@ -82,12 +82,12 @@ function Table({
       sorter.order == "ASC"
         ? "" + sorter.selectColumn
         : "-" + sorter.selectColumn
-    }`;   
+    }`;
 
     Object.entries(filter).forEach(([key, value]) => {
       url += `&${key}=${value}`;
     });
-        
+
     await GET_API(url)
       .then((response) => {
         if (!response.ok) {

@@ -66,7 +66,11 @@ export const delConfig = () => {
   localStorage.removeItem("CONFIG");
 };
 
-export const POST_API = (url: string, data: any) => {
+export const POST_API = (
+  url: string,
+  data: any,
+  ID: string | number | null = null
+) => {
   function createFormData() {
     const form = new FormData();
 
@@ -77,15 +81,27 @@ export const POST_API = (url: string, data: any) => {
     return form;
   }
 
-  return fetch(URL_API + url, {
-    method: "post",
-    body: createFormData(),
-    headers: {
-      Authorization: "Bearer " + getToken(),
-      Accept: "application/json",
-      Profile: getProfile() || "0",
-    },
-  });
+  if (ID == null) {
+    return fetch(URL_API + url, {
+      method: "post",
+      body: createFormData(),
+      headers: {
+        Authorization: "Bearer " + getToken(),
+        Accept: "application/json",
+        Profile: getProfile() || "0",
+      },
+    });
+  } else {
+    return fetch(`${URL_API}${url}/${ID}?_method=PUT`, {
+      method: "post",
+      body: createFormData(),
+      headers: {
+        Authorization: "Bearer " + getToken(),
+        Accept: "application/json",
+        Profile: getProfile() || "0",
+      },
+    });
+  }
 };
 
 export const GET_API = (url: string) => {
