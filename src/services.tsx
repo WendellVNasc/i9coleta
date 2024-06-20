@@ -115,6 +115,17 @@ export const GET_API = (url: string) => {
   });
 };
 
+export const DELETE_API = (url: string) => {
+  return fetch(`${URL_API}${url}`, {
+    method: "delete",
+    headers: {
+      Authorization: "Bearer " + getToken(),
+      Accept: "application/json",
+      Profile: getProfile() || "0",
+    },
+  });
+};
+
 // VALIDA PERMISSAO
 export const verifyConfig = (value: any) => {
   try {

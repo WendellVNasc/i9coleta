@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 // SERVIÇOS
 import {
+  DELETE_API,
   POST_API,
   POST_CATCH,
   UPLOAD_API,
@@ -272,19 +273,20 @@ export const TableTrTrashButton = ({
       cancelText: "Não",
       okText: "Sim",
       onOk() {
-        POST_API(`/${path}/del.php`, {
-          token: getToken(),
-          ID: item.ID,
-          type: "del",
-        })
-          .then((rs) => rs.json())
-          .then((res) => {
-            if (res.return) {
-              message.success({ content: res.msg, key: "screen" });
-              action();
+        DELETE_API(`/${path}/${item.id}`)
+          .then((rs) => {
+            if (rs.ok) {
+              return rs.json();
             } else {
-              Modal.warning({ title: "Algo deu errado", content: res.msg });
+              Modal.warning({
+                title: "Algo deu errado",
+                content: rs.statusText,
+              });
             }
+          })
+          .then((res) => {
+            message.success({ content: res.msg, key: "screen" });
+            action();
           })
           .catch(POST_CATCH);
       },
