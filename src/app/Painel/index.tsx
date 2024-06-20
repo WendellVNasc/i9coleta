@@ -32,19 +32,42 @@ import {
 } from "../../services";
 
 // ICONES
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { RiAlertLine, RiMailOpenLine, RiNotification2Line  } from 'react-icons/ri'
-import { IoAppsOutline, IoCartOutline, IoCashOutline, IoConstructOutline, IoGridOutline, IoIdCardOutline, IoLogOutOutline, IoMapOutline, IoMenu, IoPeopleOutline, IoSettingsOutline, IoStarOutline } from "react-icons/io5";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  RiAlertLine,
+  RiMailOpenLine,
+  RiNotification2Line,
+} from "react-icons/ri";
+import {
+  IoAppsOutline,
+  IoCartOutline,
+  IoCashOutline,
+  IoConstructOutline,
+  IoGridOutline,
+  IoIdCardOutline,
+  IoLogOutOutline,
+  IoMapOutline,
+  IoMenu,
+  IoPeopleOutline,
+  IoSettingsOutline,
+  IoStarOutline,
+} from "react-icons/io5";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { GoDatabase } from "react-icons/go"
-import { PiTruck } from "react-icons/pi"
+import { GoDatabase } from "react-icons/go";
+import { PiTruck } from "react-icons/pi";
 
 // COMPONENTES
 import MenuItem from "../../components/MenuItem";
 
 // CSS
-import './styles.css';
-import { TbCalendarCheck, TbCalendarEvent, TbShoppingCartCheck, TbTruckDelivery } from "react-icons/tb";
+import "./styles.css";
+import {
+  TbCalendarCheck,
+  TbCalendarEvent,
+  TbShoppingCartCheck,
+  TbTruckDelivery,
+} from "react-icons/tb";
+import { getConfig } from "@testing-library/react";
 
 const Painel = () => {
   // RESPONSÁVEL PELA NAVEGAÇÃO
@@ -128,126 +151,441 @@ const Painel = () => {
     setMenu(!menu);
   };
 
-    return (
-        <Row className="painel">
-            <div className="painel-logo"><Image preview={false} src={logo} className="painel-logo-img" /></div>
-            <Col span={24} className="painel-head">
-                <Row justify={'space-between'} align={'middle'} className="painel-head-row">
-                    <Col><IoMenu className="painel-menu" onClick={onMenu} /></Col>
+  return (
+    <Row className="painel">
+      <div className="painel-logo">
+        <Image preview={false} src={logo} className="painel-logo-img" />
+      </div>
+      <Col span={24} className="painel-head">
+        <Row
+          justify={"space-between"}
+          align={"middle"}
+          className="painel-head-row"
+        >
+          <Col>
+            <IoMenu className="painel-menu" onClick={onMenu} />
+          </Col>
+          <Col>
+            <Row gutter={[8, 8]} align={"middle"}>
+              <Col>
+                <Dropdown menu={{ items: dropWarn }} arrow>
+                  <Button className="painel-head-button">
+                    <RiAlertLine />
+                  </Button>
+                </Dropdown>
+              </Col>
+              <Col>
+                <Dropdown menu={{ items: dropNotf }} arrow>
+                  <Button className="painel-head-button">
+                    <RiNotification2Line />
+                  </Button>
+                </Dropdown>
+              </Col>
+              <Col>
+                <Dropdown menu={{ items: dropMail }} arrow>
+                  <Button className="painel-head-button">
+                    <RiMailOpenLine />
+                  </Button>
+                </Dropdown>
+              </Col>
+              {verifyConfig("dsh.cln") ? (
+                <Col>
+                  {" "}
+                  <Link to="/painel/carrinho">
+                    <Button className="painel-head-button">
+                      <IoCartOutline />
+                    </Button>
+                  </Link>{" "}
+                </Col>
+              ) : null}
+              <Col>
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: "perfil",
+                        label: <Link to="/painel/meuperfil">Meu Perfil</Link>,
+                        icon: (
+                          <IoIdCardOutline color="var(--color01)" size={18} />
+                        ),
+                      },
+                      {
+                        key: "configuracoes",
+                        label: (
+                          <Link to="/painel/configuracoes">Configurações</Link>
+                        ),
+                        icon: (
+                          <IoSettingsOutline color="var(--color01)" size={18} />
+                        ),
+                      },
+                      {
+                        key: "sair",
+                        label: "Sair",
+                        icon: <IoLogOutOutline color="#FFF" size={18} />,
+                        style: {
+                          backgroundColor: "var(--color04)",
+                          color: "#FFF",
+                        },
+                        onClick: onLogOut,
+                      },
+                    ],
+                  }}
+                  arrow
+                >
+                  <Row gutter={[4, 4]} className="painel-head-user">
                     <Col>
-                        <Row gutter={[8,8]} align={'middle'}>
-                            <Col>
-                                <Dropdown menu={{ items: dropWarn }} arrow>
-                                    <Button className="painel-head-button"><RiAlertLine /></Button>
-                                </Dropdown>
-                            </Col>
-                            <Col>
-                                <Dropdown menu={{ items: dropNotf }} arrow>
-                                    <Button className="painel-head-button"><RiNotification2Line /></Button>
-                                </Dropdown>
-                            </Col>
-                            <Col>
-                                <Dropdown menu={{ items: dropMail }} arrow>
-                                    <Button className="painel-head-button"><RiMailOpenLine /></Button>
-                                </Dropdown>
-                            </Col>
-                            { verifyConfig('dsh.cln') ? <Col> <Link to="/painel/carrinho"><Button className="painel-head-button"><IoCartOutline /></Button></Link> </Col> : null }
-                            <Col>
-                                <Dropdown menu={{ items: [
-                                    { key: 'perfil', label: <Link to="/painel/meuperfil">Meu Perfil</Link>, icon: <IoIdCardOutline color="var(--color01)" size={18} /> },
-                                    { key: 'configuracoes', label: <Link to="/painel/configuracoes">Configurações</Link>, icon: <IoSettingsOutline color="var(--color01)" size={18} /> },
-                                    { key: 'sair', label: 'Sair', icon: <IoLogOutOutline color="#FFF" size={18} />, style: { backgroundColor: 'var(--color04)', color: '#FFF' }, onClick: onLogOut }
-                                ] }} arrow>
-                                    <Row gutter={[4,4]} className="painel-head-user">
-                                        <Col><Avatar shape="square" className="painel-head-avatar" src={user?.PHOTO} /></Col>
-                                        <Col className="painel-head-text">
-                                            <Typography className="painel-head-typeuser">{user?.CREDENTIAL_TYPE_NAME}</Typography>
-                                            <Typography className="painel-head-nameuser">{user?.NAME}</Typography>
-                                        </Col>
-                                    </Row>
-                                </Dropdown>
-                            </Col>
-                        </Row>
+                      <Avatar
+                        shape="square"
+                        className="painel-head-avatar"
+                        src={user?.PHOTO}
+                      />
                     </Col>
-                </Row>
-            </Col>
-            <Col span={24} className="painel-body">
-                <Row style={{flexWrap: 'nowrap', flexDirection: 'row-reverse'}}>
-                    <Col flex={'auto'} className="painel-content">
-                        <Outlet />
+                    <Col className="painel-head-text">
+                      <Typography className="painel-head-typeuser">
+                        {user?.CREDENTIAL_TYPE_NAME}
+                      </Typography>
+                      <Typography className="painel-head-nameuser">
+                        {user?.NAME}
+                      </Typography>
                     </Col>
-                    <Col flex={'auto'} className={ menu ? 'painel-sidebar active' : 'painel-sidebar' }>
-                        <div className={"painel-sidebar-content"}>
-                            <Row style={{flexDirection: 'column', padding: '0.6em 0.4em'}} align={'middle'}>
-                                <Col>
-                                    <Avatar className="painel-sidebar-avatar" style={{transition: '0.2s'}} src={user?.PHOTO} />
-                                </Col>
-                                <Col className="painel-sidebar-col"> <Typography className="painel-sidebar-name">{user?.NAME}</Typography> </Col>
-                                <Col className="painel-sidebar-col"> 
-                                    <Row gutter={[8,8]} align={'middle'}>
-                                        <Col> <Button className="painel-sidebar-button"><RiAlertLine /></Button> </Col>
-                                        <Col> <Button className="painel-sidebar-button"><RiNotification2Line /></Button> </Col>
-                                        <Col> <Button className="painel-sidebar-button"><RiMailOpenLine /></Button> </Col>
-                                        { verifyConfig('dsh.cln') ? <Col> <Link to="/painel/carrinho"><Button className="painel-sidebar-button"><IoCartOutline /></Button></Link> </Col> : null }
-                                    </Row>
-                                </Col> 
-                            </Row>
-                            <Divider style={{margin: '0px'}} />
-                            <Row style={{marginTop: '0.4em'}} className="painel-sidebar-scroll">
-                                { user !== null ? (
-                                    <>
-                                        <MenuItem menu={menu} url={url} permission={ [ 'dsh.devOp', 'dsh.fncOp', 'dsh.clnOp', 'dsh.pltOp', 'dsh.mtrOp' ] } route="dashboard" name="Dashboard" icon={<IoGridOutline />} />
-                                        <MenuItem menu={menu} url={url} permission={ [ 'dsh.devFi', 'dsh.fncFi', 'dsh.clnFi', 'dsh.pltFi' ] } route="financeiro" name="Financeiro" icon={<IoCashOutline />} />
-                                        <MenuItem menu={menu} url={url} permission={ 'eta.list' } route="entregasagendadas" name="Entregas Agendadas" icon={<TbCalendarEvent />} />
-                                        <MenuItem menu={menu} url={url} permission={ 'eta.list' } route="retiradasagendadas" name="Retiradas Agendadas" icon={<TbCalendarCheck />} />
-                                        <MenuItem menu={menu} type="group" name="Pedidos" icon={<LiaFileInvoiceDollarSolid />} children={[
-                                            { url: url, permission: 'lcc.list', route: 'pedidoscacamba', name: 'Pedidos Realizados' },
-                                            { url: url, permission: 'lcc.list', route: 'entregaspendentes', name: 'Entregas Pendentes' },
-                                            { url: url, permission: 'lcc.list', route: 'emtransitolocacao', name: 'Em Trânsito Locação' },
-                                            { url: url, permission: 'lcc.list', route: 'locadas', name: 'Locadas' },
-                                            { url: url, permission: 'lcc.list', route: 'aguardandoretirada', name: 'Aguardando Retirada' },
-                                            { url: url, permission: 'lcc.list', route: 'emtransitodescarte', name: 'Em Trânsito Descarte' },
-                                        ]} />
-                                        <MenuItem menu={menu} type="group" name="Meus Pedidos" icon={<LiaFileInvoiceDollarSolid />} children={[
-                                            { url: url, permission: 'mpd.list', route: 'meuspedidos', name: 'Pedidos Realizados' },
-                                            { url: url, permission: 'mpd.list', route: 'minhascacambas', name: 'Minhas Caçambas' },
-                                        ]} />
-                                        <MenuItem menu={menu} url={url} permission={ 'avl.list' } route="avaliacoes" name="Avaliações" icon={<IoStarOutline />} />
-                                        <MenuItem menu={menu} url={url} permission={ 'vcl.list' } route="veiculos" name="Veículos" icon={<PiTruck  />} />
-                                        <MenuItem menu={menu} url={url} permission={ 'mpd.add' } route="pedircacamba" name="Pedir Caçamba" icon={<IoCartOutline />} />
-                                        <MenuItem menu={menu} url={url} permission={ 'dtf.add' } route="destinofinal" name="Destino Final" icon={<IoMapOutline />} />
-                                        <MenuItem menu={menu} type="group" name="Privilégios" icon={<IoAppsOutline />} children={[
-                                            { url: url, permission: 'gdp.list', route: 'gruposdepermissao', name: 'Grupos de Permissão' },
-                                            { url: url, permission: 'prm.list', route: 'permissoes', name: 'Permissões' },
-                                            { url: url, permission: 'tdu.list', route: 'tiposdeusuario', name: 'Tipos de Usuário' },
-                                        ]} />
-                                        <MenuItem menu={menu} type="group" name="Produtos" icon={<IoConstructOutline />} children={[
-                                            { url: url, permission: 'cmb.list', route: 'cacambas', name: 'Caçambas' },
-                                        ]} />
-                                        <MenuItem menu={menu} type="group" name="Usuários" icon={<IoPeopleOutline />} children={[
-                                            { url: url, permission: 'usr.list', route: 'usuarios', name: 'Sistema' },
-                                            { url: url, permission: 'lct.list', route: 'locatarios', name: 'Locatários' },
-                                            { url: url, permission: 'lcd.list', route: 'locadores', name: 'Locadores' },
-                                            { url: url, permission: 'eqp.list', route: 'equipe', name: 'Equipe' },
-                                            { url: url, permission: 'mtr.list', route: 'motoristas', name: 'Motoristas' },
-                                        ]} />
-                                        <MenuItem menu={menu} type="group" name="Dados do Sistema" icon={<GoDatabase />} children={[
-                                            { url: url, permission: 'tvc.list', route: 'tiposdeveiculos', name: 'Tipos de Veículos' },
-                                            { url: url, permission: 'mcm.list', route: 'modelosdecacamba', name: 'Modelos de Caçamba' },
-                                            { url: url, permission: 'rsd.list', route: 'residuos', name: 'Grupos de Residuo' },
-                                            { url: url, permission: 'etd.list', route: 'estados', name: 'Estados' },
-                                            { url: url, permission: 'cdd.list', route: 'cidades', name: 'Cidades' },
-                                        ]} />
-                                    </>
-                                ) : null }
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
-            </Col>
+                  </Row>
+                </Dropdown>
+              </Col>
+            </Row>
+          </Col>
         </Row>
-    )
-
-}
+      </Col>
+      <Col span={24} className="painel-body">
+        <Row style={{ flexWrap: "nowrap", flexDirection: "row-reverse" }}>
+          <Col flex={"auto"} className="painel-content">
+            <Outlet />
+          </Col>
+          <Col
+            flex={"auto"}
+            className={menu ? "painel-sidebar active" : "painel-sidebar"}
+          >
+            <div className={"painel-sidebar-content"}>
+              <Row
+                style={{ flexDirection: "column", padding: "0.6em 0.4em" }}
+                align={"middle"}
+              >
+                <Col>
+                  <Avatar
+                    className="painel-sidebar-avatar"
+                    style={{ transition: "0.2s" }}
+                    src={user?.PHOTO}
+                  />
+                </Col>
+                <Col className="painel-sidebar-col">
+                  {" "}
+                  <Typography className="painel-sidebar-name">
+                    {user?.NAME}
+                  </Typography>{" "}
+                </Col>
+                <Col className="painel-sidebar-col">
+                  <Row gutter={[8, 8]} align={"middle"}>
+                    <Col>
+                      {" "}
+                      <Button className="painel-sidebar-button">
+                        <RiAlertLine />
+                      </Button>{" "}
+                    </Col>
+                    <Col>
+                      {" "}
+                      <Button className="painel-sidebar-button">
+                        <RiNotification2Line />
+                      </Button>{" "}
+                    </Col>
+                    <Col>
+                      {" "}
+                      <Button className="painel-sidebar-button">
+                        <RiMailOpenLine />
+                      </Button>{" "}
+                    </Col>
+                    {verifyConfig("dsh.cln") ? (
+                      <Col>
+                        {" "}
+                        <Link to="/painel/carrinho">
+                          <Button className="painel-sidebar-button">
+                            <IoCartOutline />
+                          </Button>
+                        </Link>{" "}
+                      </Col>
+                    ) : null}
+                  </Row>
+                </Col>
+              </Row>
+              <Divider style={{ margin: "0px" }} />
+              <Row
+                style={{ marginTop: "0.4em" }}
+                className="painel-sidebar-scroll"
+              >
+                {user !== null ? (
+                  <>
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={[
+                        "dsh.devOp",
+                        "dsh.fncOp",
+                        "dsh.clnOp",
+                        "dsh.pltOp",
+                        "dsh.mtrOp",
+                      ]}
+                      route="dashboard"
+                      name="Dashboard"
+                      icon={<IoGridOutline />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={[
+                        "dsh.devFi",
+                        "dsh.fncFi",
+                        "dsh.clnFi",
+                        "dsh.pltFi",
+                      ]}
+                      route="financeiro"
+                      name="Financeiro"
+                      icon={<IoCashOutline />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"eta.list"}
+                      route="entregasagendadas"
+                      name="Entregas Agendadas"
+                      icon={<TbCalendarEvent />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"eta.list"}
+                      route="retiradasagendadas"
+                      name="Retiradas Agendadas"
+                      icon={<TbCalendarCheck />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Pedidos"
+                      icon={<LiaFileInvoiceDollarSolid />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "pedidoscacamba",
+                          name: "Pedidos Realizados",
+                        },
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "entregaspendentes",
+                          name: "Entregas Pendentes",
+                        },
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "emtransitolocacao",
+                          name: "Em Trânsito Locação",
+                        },
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "locadas",
+                          name: "Locadas",
+                        },
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "aguardandoretirada",
+                          name: "Aguardando Retirada",
+                        },
+                        {
+                          url: url,
+                          permission: "lcc.list",
+                          route: "emtransitodescarte",
+                          name: "Em Trânsito Descarte",
+                        },
+                      ]}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Meus Pedidos"
+                      icon={<LiaFileInvoiceDollarSolid />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "mpd.list",
+                          route: "meuspedidos",
+                          name: "Pedidos Realizados",
+                        },
+                        {
+                          url: url,
+                          permission: "mpd.list",
+                          route: "minhascacambas",
+                          name: "Minhas Caçambas",
+                        },
+                      ]}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"avl.list"}
+                      route="avaliacoes"
+                      name="Avaliações"
+                      icon={<IoStarOutline />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"vcl.list"}
+                      route="veiculos"
+                      name="Veículos"
+                      icon={<PiTruck />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"mpd.add"}
+                      route="pedircacamba"
+                      name="Pedir Caçamba"
+                      icon={<IoCartOutline />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      url={url}
+                      permission={"dtf.add"}
+                      route="destinofinal"
+                      name="Destino Final"
+                      icon={<IoMapOutline />}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Privilégios"
+                      icon={<IoAppsOutline />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "gdp.list",
+                          route: "gruposdepermissao",
+                          name: "Grupos de Permissão",
+                        },
+                        {
+                          url: url,
+                          permission: "prm.list",
+                          route: "permissoes",
+                          name: "Permissões",
+                        },
+                        {
+                          url: url,
+                          permission: "tdu.list",
+                          route: "tiposdeusuario",
+                          name: "Tipos de Usuário",
+                        },
+                      ]}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Produtos"
+                      icon={<IoConstructOutline />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "cmb.list",
+                          route: "cacambas",
+                          name: "Caçambas",
+                        },
+                      ]}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Usuários"
+                      icon={<IoPeopleOutline />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "usr.list",
+                          route: "usuarios",
+                          name: "Sistema",
+                        },
+                        {
+                          url: url,
+                          permission: "lct.list",
+                          route: "locatarios",
+                          name: "Locatários",
+                        },
+                        {
+                          url: url,
+                          permission: "lcd.list",
+                          route: "locadores",
+                          name: "Locadores",
+                        },
+                        {
+                          url: url,
+                          permission: "eqp.list",
+                          route: "equipe",
+                          name: "Equipe",
+                        },
+                        {
+                          url: url,
+                          permission: "mtr.list",
+                          route: "motoristas",
+                          name: "Motoristas",
+                        },
+                      ]}
+                    />
+                    <MenuItem
+                      menu={menu}
+                      type="group"
+                      name="Dados do Sistema"
+                      icon={<GoDatabase />}
+                      children={[
+                        {
+                          url: url,
+                          permission: "tvc.list",
+                          route: "tiposdeveiculos",
+                          name: "Tipos de Veículos",
+                        },
+                        {
+                          url: url,
+                          permission: "mcm.list",
+                          route: "modelosdecacamba",
+                          name: "Modelos de Caçamba",
+                        },
+                        {
+                          url: url,
+                          permission: "rsd.list",
+                          route: "residuos",
+                          name: "Grupos de Residuo",
+                        },
+                        {
+                          url: url,
+                          permission: "etd.list",
+                          route: "estados",
+                          name: "Estados",
+                        },
+                        {
+                          url: url,
+                          permission: "cdd.list",
+                          route: "cidades",
+                          name: "Cidades",
+                        },
+                      ]}
+                    />
+                  </>
+                ) : null}
+              </Row>
+            </div>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+  );
+};
 
 export default Painel;
