@@ -19,8 +19,8 @@ const GruposDePermissaoList = ({ type, path, permission } : PageDefaultProps ) =
 
     // DEFINE COLUNAS DA TABELA
     const column = [
-        { title: 'Nome', dataIndex: 'NAME', table: 'permission_group.NAME', width: 'auto', sorter: true, align: 'left', render: null },
-        { title: 'Tamanho', dataIndex: 'COL', table: 'permission_group.COL', width: '100px', sorter: true, align: 'center', render: null },
+        { title: 'Nome', dataIndex: 'name', table: 'name', width: 'auto', sorter: true, align: 'left', render: null },
+        { title: 'Tamanho', dataIndex: 'col', table: 'col', width: '100px', sorter: true, align: 'center', render: null },
         { title: 'Ações', dataIndex: null, width: '100px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <TableTrEditButton type={type} permission={permission} item={item} />
