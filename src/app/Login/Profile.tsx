@@ -15,7 +15,7 @@ const ProfileModal: React.FC = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [url, setUrl] = useState(window.location.href.split("/")[4]);
-  const handleProfileSelect = (profile: string) => {};
+
   const [profiles, setProfiles] = useState([{ id: 1, type: "" }]);
 
   useEffect(() => {
@@ -26,9 +26,8 @@ const ProfileModal: React.FC = () => {
         }
         response.json().then((data) => {
           let profiles = data.data.profiles;
-          console.log(profiles[0].id);
           if (data.data.profiles.length === 1) {
-            setProfile(`${profiles[0].id}`);
+            setProfile(JSON.stringify(profiles[0]));
             setConfig(JSON.stringify(profiles[0].permissions));
             navigate("/painel");
           }
@@ -43,7 +42,7 @@ const ProfileModal: React.FC = () => {
 
   const onSend = async (values: any) => {};
 
-  const handleConfirm = () => {};
+  const handleProfileSelect = () => {};
 
   return (
     <Row className="content-login">

@@ -28,30 +28,30 @@ const CacambasList = ({ type, path, permission }: PageDefaultProps) => {
 
   // DEFINE COLUNAS DA TABELA
   const column = [
-    // {
-    //   title: "Fotos",
-    //   dataIndex: "GALLERY",
-    //   table: "created_at",
-    //   width: "80px",
-    //   sorter: true,
-    //   align: "center",
-    //   render: (item: any) => (
-    //     <Row justify={"center"} style={{ width: "100%" }}>
-    //       <Carousel
-    //         autoplay
-    //         style={{ width: "60px" }}
-    //         arrows={item.GALLERY.length > 1}
-    //         dots={item.GALLERY.length > 1}
-    //       >
-    //         {item.GALLERY.map((v: any, i: any) => (
-    //           <div key={i}>
-    //             <Image preview={false} src={v.URL} width={"100%"} />
-    //           </div>
-    //         ))}
-    //       </Carousel>
-    //     </Row>
-    //   ),
-    // },
+    {
+      title: "Fotos",
+      dataIndex: "gallery",
+      table: "created_at",
+      width: "80px",
+      sorter: true,
+      align: "center",
+      render: (item: any) => (
+        <Row justify={"center"} style={{ width: "100%" }}>
+          <Carousel
+            autoplay
+            style={{ width: "60px" }}
+            arrows={item.gallery.length > 1}
+            dots={item.gallery.length > 1}
+          >
+            {item.gallery.map((v: any, i: any) => (
+              <div key={i}>
+                <Image preview={false} src={v.url} width={"100%"} />
+              </div>
+            ))}
+          </Carousel>
+        </Row>
+      ),
+    },
     {
       title: "Locador",
       dataIndex: "provider_name",

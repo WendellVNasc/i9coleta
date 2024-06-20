@@ -50,6 +50,10 @@ export const getProfile = () => {
   return localStorage.getItem("PROFILE") ?? "0";
 };
 
+export const getProfileID = () => {
+  return JSON.parse(getProfile()).id;
+};
+
 export const delToken = () => {
   localStorage.removeItem("TOKEN");
 };
@@ -88,7 +92,7 @@ export const POST_API = (
       headers: {
         Authorization: "Bearer " + getToken(),
         Accept: "application/json",
-        Profile: getProfile(),
+        Profile: getProfileID(),
       },
     });
   } else {
@@ -98,7 +102,7 @@ export const POST_API = (
       headers: {
         Authorization: "Bearer " + getToken(),
         Accept: "application/json",
-        Profile: getProfile(),
+        Profile: getProfileID(),
       },
     });
   }
@@ -110,7 +114,7 @@ export const GET_API = (url: string) => {
     headers: {
       Authorization: "Bearer " + getToken(),
       Accept: "application/json",
-      Profile: getProfile(),
+      Profile: getProfileID(),
     },
   });
 };
@@ -121,7 +125,7 @@ export const DELETE_API = (url: string) => {
     headers: {
       Authorization: "Bearer " + getToken(),
       Accept: "application/json",
-      Profile: getProfile(),
+      Profile: getProfileID(),
     },
   });
 };

@@ -207,7 +207,7 @@ export const TableTrGalleryButton = ({
   if (type === "list") {
     return (
       <Col>
-        <Link to={String(item.ID) + "/galeria"}>
+        <Link to={String(item.id) + "/galeria"}>
           <TbPhoto size={18} className="actions-button" />
         </Link>
       </Col>
