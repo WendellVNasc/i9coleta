@@ -219,23 +219,26 @@ const CacambasList = ({ type, path, permission }: PageDefaultProps) => {
                   ? [
                       {
                         type: "search",
-                        name: "CREDENTIAL_ID",
+                        name: "provider",
                         label: "Locador",
-                        url: "/provider/select.php",
+                        url: "/provider",
+                        labelField: "name",
                       },
                       {
                         type: "search",
-                        name: "STATIONARY_BUCKET_TYPE_ID",
+                        name: "type",
                         label: "Modelo",
-                        url: "/stationary_bucket_type/select.php",
+                        url: "/stationary_bucket_type",
+                        labelField: "name",
                       },
                     ]
                   : [
                       {
                         type: "search",
-                        name: "STATIONARY_BUCKET_TYPE_ID",
+                        name: "type",
                         label: "Modelo",
-                        url: "/stationary_bucket_type/select.php",
+                        url: "/stationary_bucket_type",
+                        labelField: "name",
                       },
                     ]
               }

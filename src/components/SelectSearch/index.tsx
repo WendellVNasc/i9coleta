@@ -65,19 +65,19 @@ const SelectSearch = ({
   };
 
   // DEFAULT VALUE
-  useEffect(() => {
-    if (effect !== null) {
-      setLoad(true);
-      POST_API(url, { token: getToken(), filters: JSON.stringify(effect) })
-        .then((rs) => rs.json())
-        .then((res) => {
-          setOptions(res.data ? res.data : []);
-          if (res.data?.[0]) change(res.data?.[0], []);
-        })
-        .catch(POST_CATCH)
-        .finally(() => setLoad(false));
-    }
-  }, [effect]);
+  // useEffect(() => {
+  //   if (effect !== null) {
+  //     setLoad(true);
+  //     POST_API(url, { token: getToken(), filters: JSON.stringify(effect) })
+  //       .then((rs) => rs.json())
+  //       .then((res) => {
+  //         setOptions(res.data ? res.data : []);
+  //         if (res.data?.[0]) change(res.data?.[0], []);
+  //       })
+  //       .catch(POST_CATCH)
+  //       .finally(() => setLoad(false));
+  //   }
+  // }, [effect]);
 
   return (
     <Select

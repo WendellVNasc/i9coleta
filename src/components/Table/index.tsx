@@ -85,7 +85,9 @@ function Table({
     }`;
 
     Object.entries(filter).forEach(([key, value]) => {
-      url += `&${key}=${value}`;
+      if (value != undefined && value != null) {
+        url += `&${key}=${value}`;
+      }
     });
 
     await GET_API(url)
