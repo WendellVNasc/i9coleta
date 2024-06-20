@@ -22,6 +22,7 @@ import {
   POST_CATCH,
   PageDefaultProps,
   UPLOAD_API,
+  getProfileID,
   getToken,
 } from "../../../../../services";
 
@@ -36,7 +37,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
   const navigate = useNavigate();
 
   // PARAMETROS
-  const { ID } = useParams();  
+  const { ID } = useParams();
 
   // ESTADOS DO COMPONENTE
   const [load, setLoad] = useState(true);
@@ -82,7 +83,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
           Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
       })
-      .then((data) => {        
+      .then((data) => {
         message.success("Salvo com sucesso!");
         navigate("..");
       })
@@ -247,7 +248,10 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
                         <Upload
                           accept="image/*"
                           action={UPLOAD_API}
-                          headers={{ Authorization: "Bearer " + getToken() }}
+                          headers={{
+                            Authorization: "Bearer " + getToken(),
+                            Profile: getProfileID(),
+                          }}
                           maxCount={1}
                           fileList={fileList}
                           onChange={({ fileList: newFileList }) => {

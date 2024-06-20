@@ -99,6 +99,7 @@ const RoutesStack = () => {
       <Routes>
         <Route path="" element={<Landing />} />
         <Route path="login" element={<Login />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="painel" element={<Painel />}>
           <Route path="" element={<Redirect />} />
           <Route path="dashboard" element={<Dashboard />} />
