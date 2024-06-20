@@ -36,8 +36,7 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
   const navigate = useNavigate();
 
   // PARAMETROS
-  const { ID } = useParams();
-  console.log(ID);
+  const { ID } = useParams();  
 
   // ESTADOS DO COMPONENTE
   const [load, setLoad] = useState(true);
@@ -83,9 +82,8 @@ const ModelosDeCacambaForm = ({ type, path, permission }: PageDefaultProps) => {
           Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
       })
-      .then((data) => {
-        console.log(data);
-        // message.success(res.msg);
+      .then((data) => {        
+        message.success("Salvo com sucesso!");
         navigate("..");
       })
       .catch(POST_CATCH)

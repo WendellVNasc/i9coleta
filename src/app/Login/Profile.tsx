@@ -26,9 +26,9 @@ const ProfileModal: React.FC = () => {
         }
         response.json().then((data) => {
           let profiles = data.data.profiles;
-
+          console.log(profiles[0].id);
           if (data.data.profiles.length === 1) {
-            setProfile(JSON.stringify(profiles[0]));
+            setProfile(`${profiles[0].id}`);
             setConfig(JSON.stringify(profiles[0].permissions));
             navigate("/painel");
           }

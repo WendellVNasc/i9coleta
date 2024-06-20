@@ -285,7 +285,7 @@ export const TableTrTrashButton = ({
             }
           })
           .then((res) => {
-            message.success({ content: res.msg, key: "screen" });
+            message.success({ content: res.message, key: "screen" });
             action();
           })
           .catch(POST_CATCH);
