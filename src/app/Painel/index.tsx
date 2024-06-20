@@ -1,15 +1,35 @@
 // BIBLIOTECAS REACT
-import { Avatar, Button, Col, Divider, Dropdown, Image, MenuProps, Modal, Row, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Dropdown,
+  Image,
+  MenuProps,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import detectUrlChange from 'detect-url-change';
+import detectUrlChange from "detect-url-change";
 
 // LOGO
-import logo from '../../assets/images/logos/Tipografia/PNG_.Tipografia Branca - Fundo Transparente.png';
+import logo from "../../assets/images/logos/Tipografia/PNG_.Tipografia Branca - Fundo Transparente.png";
 
 // SERVIÇOS
-import { POST_API, POST_CATCH, delConfig, delToken, getToken, setConfig, verifyConfig } from "../../services";
+import {
+  GET_API,
+  POST_API,
+  POST_CATCH,
+  delConfig,
+  delToken,
+  getToken,
+  setConfig,
+  verifyConfig,
+} from "../../services";
 
 // ICONES
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -27,80 +47,86 @@ import './styles.css';
 import { TbCalendarCheck, TbCalendarEvent, TbShoppingCartCheck, TbTruckDelivery } from "react-icons/tb";
 
 const Painel = () => {
+  // RESPONSÁVEL PELA NAVEGAÇÃO
+  const navigate = useNavigate();
 
-    // RESPONSÁVEL PELA NAVEGAÇÃO
-    const navigate = useNavigate()
+  // ESTADOS DO COMPONENTE
+  const [url, setUrl] = useState(window.location.href.split("/")[4]);
+  const [menu, setMenu] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [dropWarn, setDropWarn] = useState<MenuProps["items"]>([
+    {
+      key: "*",
+      label: (
+        <Typography className="painel-drop-title">Atualizações</Typography>
+      ),
+      disabled: true,
+    },
+  ]);
+  const [dropNotf, setDropNotf] = useState<MenuProps["items"]>([
+    {
+      key: "*",
+      label: (
+        <Typography className="painel-drop-title">Notificações</Typography>
+      ),
+      disabled: true,
+    },
+  ]);
+  const [dropMail, setDropMail] = useState<MenuProps["items"]>([
+    {
+      key: "*",
+      label: <Typography className="painel-drop-title">Mensagens</Typography>,
+      disabled: true,
+    },
+  ]);
 
-    // ESTADOS DO COMPONENTE
-    const [ url, setUrl ] = useState(window.location.href.split('/')[4]);
-    const [ menu, setMenu ] = useState(false);
-    const [ user, setUser ] = useState<any>(null);
-    const [ dropWarn, setDropWarn ] = useState<MenuProps['items']>([ { key: '*', label: <Typography className="painel-drop-title">Atualizações</Typography>, disabled: true } ]);
-    const [ dropNotf, setDropNotf ] = useState<MenuProps['items']>([ { key: '*', label: <Typography className="painel-drop-title">Notificações</Typography>, disabled: true } ]);
-    const [ dropMail, setDropMail ] = useState<MenuProps['items']>([ { key: '*', label: <Typography className="painel-drop-title">Mensagens</Typography>, disabled: true } ]);
+  useEffect(() => {
+    setUser(getConfig());
+  }, [url]);
 
-    useEffect(() => {
-        
-        if (getToken() != null) {
-            POST_API('/credential/verify.php', { token: getToken() }).then(rs => rs.json()).then(res => {
-                if (!res.return) { navigate('/login') } else {
-                    setConfig(res.per)
-                }
-            })
-            POST_API('/credential/search.php', { token: getToken(), type: 'self' }).then(rs => rs.json()).then(res => {
-                if (res.return) {
-                    setUser(res.data)
-                }
-            })
-        } else { 
-            navigate('/login')
-        }
-
-    }, [url]);
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.permissions.query({ name: "geolocation" }).then(function (result) { 
-                console.log(result); 
-            });
-        } else { Modal.warn({title: "Geolocation is not supported by this browser."}); } 
-    }, [])
-
-    useEffect(() => {
-        // FUNÇÃO QUE OBSERVA A MUDANÇA NA ROTA PARA ATUALIZAR MENU ATIVO
-        detectUrlChange.on('change', (newUrl) => {
-            var params = String(newUrl).split('/')
-            setUrl(params[4])
-            setMenu(false)
-            if (getToken() != null) { } else { 
-                navigate('/login')
-            }
-        });
-        // VERIFICAR CARRINHO
-        if ( verifyConfig('dsh.cln') ) {
-            POST_API('/cart/self-search.php', { token: getToken() }).then(rs => rs.json()).then(res => {
-                if (res.return) { }
-            })
-        }
-    }, [])
-
-    // FUNÇÃO SAIR DO SISTEMA
-    const onLogOut = () => {
-        Modal.confirm({
-            title: 'Sair do sistema?', icon: <ExclamationCircleOutlined />, cancelText: 'Não', okText: 'Sim',
-            onOk() {
-                delConfig()
-                delToken()
-                navigate('/login')
-            },
-            onCancel() {},
+  useEffect(() => {
+    // FUNÇÃO QUE OBSERVA A MUDANÇA NA ROTA PARA ATUALIZAR MENU ATIVO
+    detectUrlChange.on("change", (newUrl) => {
+      var params = String(newUrl).split("/");
+      setUrl(params[4]);
+      setMenu(false);
+      if (getToken() != null) {
+      } else {
+        navigate("/login");
+      }
+    });
+    // VERIFICAR CARRINHO
+    if (verifyConfig("dsh.cln")) {
+      POST_API("/cart/self-search.php", { token: getToken() })
+        .then((rs) => rs.json())
+        .then((res) => {
+          if (res.return) {
+          }
         })
-    } 
-
-    // MUDAR ESTADO MENU
-    const onMenu = () => {
-        setMenu(!menu)
+        .catch(POST_CATCH);
     }
+  }, []);
+
+  // FUNÇÃO SAIR DO SISTEMA
+  const onLogOut = () => {
+    Modal.confirm({
+      title: "Sair do sistema?",
+      icon: <ExclamationCircleOutlined />,
+      cancelText: "Não",
+      okText: "Sim",
+      onOk() {
+        delConfig();
+        delToken();
+        navigate("/login");
+      },
+      onCancel() {},
+    });
+  };
+
+  // MUDAR ESTADO MENU
+  const onMenu = () => {
+    setMenu(!menu);
+  };
 
     return (
         <Row className="painel">
