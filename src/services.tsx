@@ -66,6 +66,15 @@ export const POST_API = (url: string, data: any) => {
 
 }
 
+export const COORDINATES = (address: string) => {
+    var res = fetch(`https://photon.komoot.io/api/?lang=en&limit=5&q=${address}`)
+
+    res.then(rs => rs.json()).then(result => {
+        console.log(result)
+    })
+    
+}
+
 // VALIDA PERMISSAO
 export const verifyConfig = (value: any) => {
     try {

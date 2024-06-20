@@ -20,7 +20,7 @@ const CardCacambaProvider = ( { item, action = () => {} } : CardCacambaProviderI
     const navigate = useNavigate()
 
     return (
-        <div className="card-cacamba" onClick={action}>
+        <div className="card-cacamba" onClick={() => navigate(`/painel/pedircacamba/cacamba/${item?.ID}`)}>
             <div className='card-cacamba-div'>
                 <div className='card-cacamba-text-row'>
                     <Typography className="card-cacamba-name">Modelo {item?.STATIONARY_BUCKET_TYPE_NAME} <span></span></Typography>

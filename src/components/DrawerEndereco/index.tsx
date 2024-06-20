@@ -15,6 +15,7 @@ import { MaskCEP, POST_API, POST_CATCH, getToken } from "../../services";
 // COMPONENTES
 import SelectSearch from "../SelectSearch";
 import LoadItem from "../LoadItem";
+import { fromAddress } from "react-geocode";
 
 // INTERFACE
 interface DrawerEnderecoInterface {
@@ -22,9 +23,10 @@ interface DrawerEnderecoInterface {
     close: any,
     address: any,
     setAddress: any,
+    type?: any,
 }
 
-const DrawerEndereco = ( { open, close, address, setAddress } : DrawerEnderecoInterface ) => {
+const DrawerEndereco = ( { open, close, address, setAddress, type = '*' } : DrawerEnderecoInterface ) => {
 
     // ESTADOS DO COMPONENTE
     const [ newAddress, setNewAddress ] = useState<boolean>(false)
@@ -35,6 +37,8 @@ const DrawerEndereco = ( { open, close, address, setAddress } : DrawerEnderecoIn
     const [ state, setState ] = useState<any>(null);
     const [ mee, setMee ] = useState<any>(null);
     const [ search, setSearch ] = useState<any>('')
+    const [ cityName, setCityName ] = useState<any>('');
+    const [ stateAcronym, setStateAcronym ] = useState<any>('');
 
     const onNewAddress = () => setNewAddress(!newAddress)
 
@@ -45,6 +49,8 @@ const DrawerEndereco = ( { open, close, address, setAddress } : DrawerEnderecoIn
             if (res.return) {
                 form.setFieldValue('STREET', res.data.nome_logradouro)
                 form.setFieldValue('DISTRICT', res.data.bairro)
+                setStateAcronym(res.data.uf)
+                setCityName(res.data.nome_localidade)
                 setState({ACRONYM: res.data.uf})
                 setCity({search: res.data.nome_localidade+' - '+res.data.uf})
             } else {
@@ -55,19 +61,27 @@ const DrawerEndereco = ( { open, close, address, setAddress } : DrawerEnderecoIn
     
     // FUNÇÃO SALVAR
     const onSend = (values: any) => {
+
+        const address = `${values?.STREET}, ${values?.NUMB} - ${values?.DISTRICT} - ${cityName} / ${stateAcronym}`
         setLoadButton(true)
-        POST_API(`/address/save.php`, { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
-            if (res.return) {
-                setNewAddress(false)
-                onSearch()
-            } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
-        }).catch(POST_CATCH).finally( () => setLoadButton(false) )
+        fromAddress(address).then(({ results }) => {
+            const { lat, lng } = results[0].geometry.location;
+            values.LATITUDE = lat
+            values.LONGITUDE = lng
+            POST_API(`/address/save.php`, { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
+                if (res.return) {
+                    setNewAddress(false)
+                    onSearch()
+                } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
+            }).catch(POST_CATCH).finally( () => setLoadButton(false) )
+        }).catch( () => Modal.warning({ title: 'Algo deu errado', content: 'Não foi possível encontrar endereço' }));
+        
     }
     
     // FUNÇÃO PESQUISAR
     const onSearch = () => {
         setLoadButton(true)
-        POST_API(`/address/search.php`, { token: getToken(), search: search }).then(rs => rs.json()).then(res => {
+        POST_API(`/address/search.php`, { token: getToken(), filter: JSON.stringify({PRINCIPAL: type}), search: search }).then(rs => rs.json()).then(res => {
             if (res.return) { setAddressList(res.data); setMee(res.self) } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
         }).catch(POST_CATCH).finally( () => setLoadButton(false) )
     }
@@ -134,12 +148,6 @@ const DrawerEndereco = ( { open, close, address, setAddress } : DrawerEnderecoIn
                 <Row gutter={[8,16]}>
                     <Col span={24}>
                         <Input prefix={<IoSearch color="var(--color02)" />} size="large" placeholder="Buscar em endereço" value={search} onChange={(v) => setSearch(v.target.value)} />
-                    </Col>
-                    <Col span={24}>
-                        <Card size='small' hoverable onClick={() => setAddress({...mee, ID: '*'})}>
-                            <Typography className='ad-title'><TiPin/> Meu endereço principal</Typography>
-                            <Typography>{mee?.STREET}, {mee?.NUMB} - {mee?.DISTRICT} - {mee?.CITY_NAME} / {mee?.STATE_ACRONYM}</Typography>
-                        </Card>
                     </Col>
                     { loadButton ? <Col span={24}><LoadItem type='alt' /></Col> : addressList.length > 0 ? addressList.map((v, i) => (
                         <Col span={24} key={i}>

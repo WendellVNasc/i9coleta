@@ -1,7 +1,7 @@
 // BIBLIOTECAS REACT
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Carousel, Col, Image, Row, Typography } from "antd";
+import { Button, Carousel, Col, Image, Row, Typography } from "antd";
 
 // SERVIÇOS
 import { PageDefaultProps, verifyConfig } from "../../../../../services";
@@ -11,6 +11,7 @@ import PageDefault from "../../../../../components/PageDefault";
 import CardItem from "../../../../../components/CardItem";
 import Table from "../../../../../components/Table";
 import { TableNewButton, TableReturnButton, TableTrCartButton, TableTrEditButton, TableTrGalleryButton, TableTrQrCodeButton, TableTrRecoverButton, TableTrTrashButton, TableTrashButton } from "../../../../../components/Table/buttons";
+import { TbArrowsRandom } from "react-icons/tb";
 
 const CacambasList = ({ type, path, permission } : PageDefaultProps ) => {
 

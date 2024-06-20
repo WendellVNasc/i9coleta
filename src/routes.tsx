@@ -72,6 +72,25 @@ import FuncoesLocatarioTipoLocal from './app/Painel/FuncoesLocatario/TipoLocal';
 import FuncoesLocatarioCacamba from './app/Painel/FuncoesLocatario/Cacamba';
 import MeusPedidosList from './app/Painel/FuncoesLocatario/MeusPedidos/List';
 import PedidosList from './app/Painel/FuncoesLocador/Pedidos/List';
+import PedidosDetalhes from './app/Painel/FuncoesLocador/Pedidos/Detail';
+import MeusPedidosDetalhes from './app/Painel/FuncoesLocatario/MeusPedidos/Detail';
+import MotoristaList from './app/Painel/FuncoesLocador/Motorista/List';
+import MotoristaForm from './app/Painel/FuncoesLocador/Motorista/Form';
+import VeiculoList from './app/Painel/FuncoesLocador/Veiculo/List';
+import VeiculoForm from './app/Painel/FuncoesLocador/Veiculo/Form';
+import PedidosMapa from './app/Painel/FuncoesLocador/Pedidos/Mapa';
+import TiposDeVeiculosList from './app/Painel/DadosDoSistema/TipoDeVeiculos/List';
+import TiposDeVeiculosForm from './app/Painel/DadosDoSistema/TipoDeVeiculos/Form';
+import DestinoFinalList from './app/Painel/FuncoesLocador/DestinoFinal/List';
+import DestinoFinalForm from './app/Painel/FuncoesLocador/DestinoFinal/Form';
+import EntregasPendentesList from './app/Painel/FuncoesLocador/EntregasPendentes';
+import MinhasEntregas from './app/Painel/FuncoesMotorista/MinhasEntregas';
+import EmTransitoLocacaoList from './app/Painel/FuncoesLocador/EmTransitoLocacao';
+import LocadasList from './app/Painel/FuncoesLocador/Locadas';
+import MinhasCacambas from './app/Painel/FuncoesLocatario/MinhasCacambas';
+import AguardandoRetiradaList from './app/Painel/FuncoesLocador/AguardandoRetirada';
+import MinhasRetiradas from './app/Painel/FuncoesMotorista/MinhasRetiradas';
+import EmTransitoDescarteList from './app/Painel/FuncoesLocador/EmTransitoDescarte';
 
 
 const RoutesStack = () => {
@@ -88,7 +107,10 @@ const RoutesStack = () => {
                     <Route path="meuperfil" element={<MeuPerfil />} />
                     <Route path="carrinho" element={<Carrinho />} />
                     <Route path="configuracoes" element={<Configuracoes />} />
-                    <Route path="meuspedidos" element={<MeusPedidosList type='list' path="order_location" permission='mpd' />} />
+                    <Route path="meuspedidos" element={<Outlet />}>
+                        <Route path="" element={<MeusPedidosList type='list' path="order_location" permission='mpd' />} />
+                        <Route path=":ID/detalhes" element={<MeusPedidosDetalhes type='list' path="order_location" permission='mpd' />} />
+                    </Route>
                     <Route path="pedircacamba" element={<Outlet />}>
                         <Route path="" element={<FuncoesLocatario />} />
                         <Route path="fornecedor/:ID" element={<FuncoesLocatarioFornecedor />} />
@@ -96,7 +118,6 @@ const RoutesStack = () => {
                         <Route path="tipolocacao/:TYPE_LOCAL" element={<FuncoesLocatarioTipoLocal />} />
                         <Route path="cacamba/:ID" element={<FuncoesLocatarioCacamba />} />
                     </Route>
-                    <Route path="pedidoscacamba" element={<PedidosList type='list' path="order_location" permission='lcc' />} />
                     {/* GRUPO PRIVILEGIOS */}
                         {/* GRUPOS DE PERMISSAO */}
                         <Route path="gruposdepermissao" element={<Outlet />}>
@@ -120,6 +141,13 @@ const RoutesStack = () => {
                             <Route path=":ID" element={<TiposDeUsuarioForm type='edit' path="credential_type" permission='tdu' />} />
                         </Route>
                     {/* DADOS DO SISTEMA */}
+                        {/* TIPOS DE VEICULOS */}
+                        <Route path="tiposdeveiculos" element={<Outlet />}>
+                            <Route path="" element={<TiposDeVeiculosList type='list' path="vehicle_type" permission='tvc' />} />
+                            <Route path="lixeira" element={<TiposDeVeiculosList type='trash' path="vehicle_type" permission='tvc' />} />
+                            <Route path="novo" element={<TiposDeVeiculosForm type='add' path="vehicle_type" permission='tvc' />} />
+                            <Route path=":ID" element={<TiposDeVeiculosForm type='edit' path="vehicle_type" permission='tvc' />} />
+                        </Route>
                         {/* MODELOS DE CAÇAMBA */}
                         <Route path="modelosdecacamba" element={<Outlet />}>
                             <Route path="" element={<ModelosDeCacambaList type='list' path="stationary_bucket_type" permission='mcm' />} />
@@ -185,7 +213,22 @@ const RoutesStack = () => {
                                 <Route path=":ID2" element={<CacambasItensForm type='edit' path="stationary_bucket" permission='cmb' />} />
                             </Route>
                         </Route>
+                    {/* FUNCOES LOCATARIO */}
+                        {/* MINHAS CAÇAMBAS */}
+                        <Route path="minhascacambas" element={<MinhasCacambas type='list' path="stationary_bucket" permission='mpd' />} />
+                    {/* FUNÇOES MOTORISTA */}
+                        {/* ENTREGAS AGENDADAS */}
+                        <Route path="entregasagendadas" element={<MinhasEntregas type='list' path="stationary_bucket" permission='eta' />} />
+                        {/* RETIRADAS AGENDADAS */}
+                        <Route path="retiradasagendadas" element={<MinhasRetiradas type='list' path="stationary_bucket" permission='eta' />} />
                     {/* FUNCOES LOCADOR */}
+                        {/* DESTINO FINAL */}
+                        <Route path="destinofinal" element={<Outlet />}>
+                            <Route path="" element={<DestinoFinalList type='list' path="address" permission='dtf' />} />
+                            <Route path="lixeira" element={<DestinoFinalList type='trash' path="address" permission='dtf' />} />
+                            <Route path="novo" element={<DestinoFinalForm type='add' path="address" permission='dtf' />} />
+                            <Route path=":ID" element={<DestinoFinalForm type='edit' path="address" permission='dtf' />} />
+                        </Route>
                         {/* EQUIPE */}
                         <Route path="equipe" element={<Outlet />}>
                             <Route path="" element={<EquipeList type='list' path="team" permission='eqp' />} />
@@ -193,6 +236,36 @@ const RoutesStack = () => {
                             <Route path="novo" element={<EquipeForm type='add' path="team" permission='eqp' />} />
                             <Route path=":ID" element={<EquipeForm type='edit' path="team" permission='eqp' />} />
                         </Route>
+                        {/* MOTORISTA */}
+                        <Route path="motoristas" element={<Outlet />}>
+                            <Route path="" element={<MotoristaList type='list' path="driver" permission='mtr' />} />
+                            <Route path="lixeira" element={<MotoristaList type='trash' path="driver" permission='mtr' />} />
+                            <Route path="novo" element={<MotoristaForm type='add' path="driver" permission='mtr' />} />
+                            <Route path=":ID" element={<MotoristaForm type='edit' path="driver" permission='mtr' />} />
+                        </Route>
+                        {/* VEICULO */}
+                        <Route path="veiculos" element={<Outlet />}>
+                            <Route path="" element={<VeiculoList type='list' path="vehicle" permission='vcl' />} />
+                            <Route path="lixeira" element={<VeiculoList type='trash' path="vehicle" permission='vcl' />} />
+                            <Route path="novo" element={<VeiculoForm type='add' path="vehicle" permission='vcl' />} />
+                            <Route path=":ID" element={<VeiculoForm type='edit' path="vehicle" permission='vcl' />} />
+                        </Route>
+                        {/* PEDIDOS CAÇAMBA */}
+                        <Route path="pedidoscacamba" element={<Outlet />}>
+                            <Route path="" element={<PedidosList type='list' path="order_location" permission='lcc' />} />
+                            <Route path=":ID/detalhes" element={<PedidosDetalhes type='list' path="order_location" permission='lcc' />} />
+                            <Route path=":ID/mapa" element={<PedidosMapa type='list' path="order_location" permission='lcc' />} />
+                        </Route>
+                        {/* ENTREGAS PENDENTES */}
+                        <Route path="entregaspendentes" element={<EntregasPendentesList type='list' path="stationary_bucket" permission='lcc' />} />
+                        {/* EM TRANSITO */}
+                        <Route path="emtransitolocacao" element={<EmTransitoLocacaoList type='list' path="stationary_bucket" permission='lcc' />} />
+                        {/* EM TRANSITO */}
+                        <Route path="emtransitodescarte" element={<EmTransitoDescarteList type='list' path="stationary_bucket" permission='lcc' />} />
+                        {/* LOCADAS */}
+                        <Route path="locadas" element={<LocadasList type='list' path="stationary_bucket" permission='lcc' />} />
+                        {/* AGUARDANDO RETIRADA */}
+                        <Route path="aguardandoretirada" element={<AguardandoRetiradaList type='list' path="stationary_bucket" permission='lcc' />} />
                     <Route path="*" element={<></>} />
                 </Route>
             </Routes>

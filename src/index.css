@@ -452,3 +452,7 @@ body {
     padding: 1em;
     border: var(--color01) 5px solid;
 }
+
+.ant-upload-select {
+    width: 100%;
+}

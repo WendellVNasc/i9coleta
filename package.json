@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -12,18 +13,24 @@
     "@types/node": "^16.18.97",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "@types/react-geocode": "^0.2.4",
     "@types/react-input-mask": "^3.0.5",
     "@types/react-router-dom": "^5.3.3",
+    "@yudiel/react-qr-scanner": "^2.0.4",
     "antd": "^5.17.4",
     "antd-img-crop": "^4.22.0",
     "detect-url-change": "^1.0.2",
     "echarts": "^5.5.0",
     "html-react-parser": "^5.1.10",
     "html2canvas": "^1.4.1",
+    "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-geocode": "^1.0.0-alpha.1",
     "react-icons": "^5.2.1",
     "react-input-mask": "^2.0.4",
+    "react-leaflet": "^4.2.1",
+    "react-leaflet-google-layer": "^2.2.0",
     "react-loader-spinner": "^6.1.6",
     "react-number-format": "^5.3.4",
     "react-router-dom": "^6.23.0",
@@ -56,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.12"
   }
 }

@@ -17,6 +17,7 @@ import { IoCameraOutline } from "react-icons/io5";
 // CSS
 import './styles.css'
 import SelectSearch from "../../../components/SelectSearch";
+import { fromAddress } from "react-geocode";
 
 const MeuPerfil = () => {
 
@@ -27,7 +28,9 @@ const MeuPerfil = () => {
     const [ loadPassButton, setLoadPassButton ] = useState<boolean>(false);
     const [ loadCEP, setLoadCEP ] = useState(false);
     const [ city, setCity ] = useState<any>(null);
+    const [ cityName, setCityName ] = useState<any>('');
     const [ state, setState ] = useState<any>(null);
+    const [ stateAcronym, setStateAcronym ] = useState<any>('');
 
     // CAMPOS FORM
     const [ form ] = Form.useForm()
@@ -46,12 +49,20 @@ const MeuPerfil = () => {
 
     // EDITAR DADOS
     const onSend = (values:any) => {
+
+        const address = `${values?.STREET}, ${values?.NUMB} - ${values?.DISTRICT} - ${cityName} / ${stateAcronym}`
         setLoadButton(true)
-        POST_API('/credential/self-save.php', { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
-            if (res.return) {
-                load()
-            } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
-        }).catch(POST_CATCH).finally(() => setLoadButton(false))
+        fromAddress(address).then(({ results }) => {
+            const { lat, lng } = results[0].geometry.location;
+            values.LATITUDE = lat
+            values.LONGITUDE = lng
+            POST_API('/credential/self-save.php', { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
+                if (res.return) {
+                    load()
+                } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
+            }).catch(POST_CATCH).finally(() => setLoadButton(false))
+        }).catch( () => Modal.warning({ title: 'Algo deu errado', content: 'Não foi possível encontrar endereço' }));
+        // return false
     }
 
     // EDITAR SENHA
@@ -73,6 +84,8 @@ const MeuPerfil = () => {
                 form.setFieldsValue(res.data)
                 setState({ID: res.data.STATE_ID})
                 setCity({ID: res.data.CITY_ID})
+                setStateAcronym(res.data.STATE_ACRONYM)
+                setCityName(res.data.CITY_NAME)
                 setUser(res.data)
                 setDoc(String(res.data.LOGIN).length > 15)
             }
@@ -86,6 +99,8 @@ const MeuPerfil = () => {
             if (res.return) {
                 form.setFieldValue('STREET', res.data.nome_logradouro)
                 form.setFieldValue('DISTRICT', res.data.bairro)
+                setStateAcronym(res.data.uf)
+                setCityName(res.data.nome_localidade)
                 setState({ACRONYM: res.data.uf})
                 setCity({search: res.data.nome_localidade+' - '+res.data.uf})
             } else {
@@ -172,8 +187,8 @@ const MeuPerfil = () => {
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} md={24}>
-                                        <Form.Item name="DESCRIPTION" label="Breve descrição e preferêcias">
-                                            <Input.TextArea rows={4} placeholder="Breve descrição e preferêcias" />
+                                        <Form.Item name="DESCRIPTION" label="Breve descrição e/ou preferêcias">
+                                            <Input.TextArea rows={4} placeholder="Breve descrição e/ou preferêcias" />
                                         </Form.Item>
                                     </Col>
                                     { verifyConfig('ffn.atp') || verifyConfig('fcl.atp') ? (

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Col, Drawer, Image, Layout, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
+import L from 'leaflet';
 
 // ICONES
 import { IoMenuOutline } from 'react-icons/io5';
@@ -22,6 +23,12 @@ import image10 from '../assets/images/site/Group-26-1.png';
 import image11 from '../assets/images/site/Box-Image.png';
 import image12 from '../assets/images/site/Box-Image-1.png';
 import image13 from '../assets/images/site/Box-Image-2.png';
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
+    iconUrl: require('leaflet/dist/images/marker-icon.png').default,
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png').default
+});
 
 const Landing = () => {
 

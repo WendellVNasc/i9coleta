@@ -12,6 +12,7 @@ import PageDefault from "../../../../../components/PageDefault"
 import CardItem from "../../../../../components/CardItem"
 import LoadItem from "../../../../../components/LoadItem"
 import SelectSearch from "../../../../../components/SelectSearch"
+import { TbArrowsRandom } from "react-icons/tb"
 
 const CacambasForm = ( { type, path, permission } : PageDefaultProps ) => {
 

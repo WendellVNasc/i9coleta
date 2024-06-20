@@ -14,6 +14,7 @@ import DashDev from "./dashDev";
 import DashCliente from "./dashCliente";
 import LoadItem from "../../../components/LoadItem";
 import DashFornecedor from "./dashFornecedor";
+import DashMotorista from "./dashMotorista";
 
 const Dashboard = ( ) => {
 
@@ -29,9 +30,10 @@ const Dashboard = ( ) => {
     // VERIFICAR TIPO DE DASH
     useEffect(() => {
         setTimeout(() => {
-            if (verifyConfig('dsh.dev')) setType('DEV')
-            if (verifyConfig('dsh.cln')) setType('CLN')
-            if (verifyConfig('dsh.fnc')) setType('FNC')
+            if (verifyConfig('dsh.devOp')) setType('DEV')
+            if (verifyConfig('dsh.clnOp')) setType('CLN')
+            if (verifyConfig('dsh.fncOp')) setType('FNC')
+            if (verifyConfig('dsh.mtrOp')) setType('MTR')
         }, 500);
     }, [])
 
@@ -48,6 +50,7 @@ const Dashboard = ( ) => {
             { type === 'DEV' ? <DashDev filters={{filterMes, filterAno}} /> : null }
             { type === 'CLN' ? <DashCliente filters={{filterMes, filterAno}} /> : null }
             { type === 'FNC' ? <DashFornecedor filters={{filterMes, filterAno}} /> : null }
+            { type === 'MTR' ? <DashMotorista filters={{filterMes, filterAno}} /> : null }
         </PageDefault>
     )
 

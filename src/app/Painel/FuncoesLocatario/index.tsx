@@ -115,7 +115,7 @@ const PedirCacamba = () => {
                                 </CardItem>
                             </Col>
                             <Col span={24}>
-                                <CardItem title="Melhores caçambas disponíveis">
+                                <CardItem title="Melhores avaliações">
                                     <Button type="link" className="pd-button-card">Ver mais</Button>
                                     <Row gutter={[16,16]}>
                                         { cacambas.map((v:any,i:any) => (

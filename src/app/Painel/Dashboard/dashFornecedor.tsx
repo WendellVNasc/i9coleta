@@ -12,6 +12,8 @@ import GraphProdutosMaisPedidos from "../../../components/Graphics/graphProdutos
 import GraphMelhoresAvaliacoes from "../../../components/Graphics/graphMelhoresAvaliacoes"
 import GraphUltimosComentarios from "../../../components/Graphics/graphUltimosComentarios"
 import CardKPISmall from "../../../components/CardKPISmall"
+import { useEffect } from "react"
+import { POST_API, POST_CATCH, getToken } from "../../../services"
 
 // INTERFACE
 interface DashFornecedorInterface {
@@ -19,6 +21,12 @@ interface DashFornecedorInterface {
 }
 
 const DashFornecedor = ( { filters } : DashFornecedorInterface ) => {
+
+    useEffect(() => {
+        // POST_API('/dashboard/locador-kpi.php', { token: getToken(), filter: JSON.stringify(filters) }).then(rs => rs.json()).then(res => {
+            
+        // }).catch(POST_CATCH)
+    }, [ filters ])
 
     return (
         <Row gutter={[16,16]}>

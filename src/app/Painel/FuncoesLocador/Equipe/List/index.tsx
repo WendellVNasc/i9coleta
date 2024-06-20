@@ -20,7 +20,7 @@ const EquipeList = ({ type, path, permission } : PageDefaultProps ) => {
     // DEFINE COLUNAS DA TABELA
     const column = [
         { title: 'Login', dataIndex: 'LOGIN', table: 'credential.LOGIN', width: '200px', sorter: true, align: 'center', render: null },
-        { title: 'Nome', dataIndex: 'NAME', table: 'credential.NAME', width: 'auto', sorter: true, align: 'left', render: null },
+        { title: 'Nome', dataIndex: 'NAME', table: 'credential.NAME', width: 'auto', minWidth: '240px', sorter: true, align: 'left', render: null },
         { title: 'E-mail', dataIndex: 'EMAIL_01', table: 'credential.EMAIL_01', width: '200px', sorter: true, align: 'center', render: null },
         { title: 'Ações', dataIndex: null, width: '100px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>

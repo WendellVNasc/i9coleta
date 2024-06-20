@@ -1,5 +1,5 @@
 // BIBLIOTECAS REACT
-import { Button, Col, Modal, QRCode, Upload, message } from "antd"
+import { Button, Col, Modal, QRCode, Typography, Upload, message } from "antd"
 import { Link } from "react-router-dom"
 
 // SERVIÇOS
@@ -7,7 +7,7 @@ import { POST_API, POST_CATCH, UPLOAD_API, getToken, verifyConfig } from "../../
 
 // ICONES
 import { IoAddCircleOutline, IoArrowBack, IoTrashOutline } from "react-icons/io5"
-import { TbArrowBack, TbBarrierBlock, TbChecks, TbEdit, TbPasswordUser, TbPhoto, TbQrcode, TbShoppingCart, TbTrash, TbX } from "react-icons/tb"
+import { TbArrowBack, TbBarrierBlock, TbChecks, TbDetails, TbEdit, TbList, TbMapPinExclamation, TbPasswordUser, TbPhoto, TbQrcode, TbShoppingCart, TbTrash, TbX } from "react-icons/tb"
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 // LOGO
@@ -82,6 +82,20 @@ export const TableTrGalleryButton = ( { type, permission, item } : TableButtonIn
     return null
 }
 
+export const TableTrDetailButton = ( { type, permission, item } : TableButtonInterface ) => {
+    if ( type === 'list' ) {
+        return <Col><Link to={String(item.ID)+'/detalhes'}><TbList size={18} className="actions-button"/></Link></Col>
+    }
+    return null
+}
+
+export const TableTrMapButton = ( { type, permission, item } : TableButtonInterface ) => {
+    if ( type === 'list' ) {
+        return <Col><Link to={String(item.ID)+'/mapa'}><TbMapPinExclamation size={18} className="actions-button"/></Link></Col>
+    }
+    return null
+}
+
 export const TableTrQrCodeButton = ( { type, item } : TableButtonInterface ) => {
     
     const onOpen = () => {
@@ -90,6 +104,7 @@ export const TableTrQrCodeButton = ( { type, item } : TableButtonInterface ) => 
                 <div className="i9-qrcode" id="myqrcode">
                     <center><img src={logo} width={100}/></center>
                     <center><QRCode bgColor="#FFF" value={item.CODE} size={300} /></center>
+                    <center><Typography>{item.CODE}</Typography></center>
                 </div>
             : 'QRcode não cadastrado', icon: <></>, cancelText: 'Fechar', okText: 'Download', okButtonProps: { disabled: !item.CODE },
             onOk: () => {

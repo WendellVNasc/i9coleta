@@ -68,21 +68,21 @@ const MenuItem = ( { permission, route, url, icon, name, type = 'menu', children
             </div>
             { !menu ? (
                 <div className="painel-sidebar-dropdown">
-                    { children?.map((v, i) => (
-                        <div className={ v.url === v.route ? "painel-sidebar-btn-drop active" : "painel-sidebar-btn-drop" } onClick={() => navigate(`/painel/${v.route}`)}>
+                    { children?.map((v, i) => (verifyConfig(v.permission) || v.permission === true) ? (
+                        <div key={`menuitem${i}`} className={ v.url === v.route ? "painel-sidebar-btn-drop active" : "painel-sidebar-btn-drop" } onClick={() => navigate(`/painel/${v.route}`)}>
                             <div className="painel-sidebar-btn-drop-text">{v.name}</div>
                         </div>
-                    )) }
+                    ) : null ) }
                 </div>
             ) : null }
-            { children?.map((v, i) => (
+            { children?.map((v, i) => (verifyConfig(v.permission) || v.permission === true) ? (
                 <Col style={{ display: open && menu ? 'block' : 'none' }} span={24} key={`menuitem${i}`} className="painel-sidebar-col">
                     <div className={ v.url === v.route ? "painel-sidebar-btn-sub active" : "painel-sidebar-btn-sub" } onClick={() => navigate(`/painel/${v.route}`)}>
                         <div className="painel-sidebar-btn-icon"></div>
                         <div className="painel-sidebar-btn-text">{v.name}</div>
                     </div>
                 </Col>
-            )) }
+            ): null ) }
         </Col>
     );
 

@@ -1,16 +1,17 @@
 // BIBLIOTECAS REACT
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Col, Row } from "antd";
+import { Button, Col, Form, Input, Modal, Row, message } from "antd";
 
 // SERVIÇOS
-import { PageDefaultProps } from "../../../../../../services";
+import { POST_API, POST_CATCH, PageDefaultProps, getToken } from "../../../../../../services";
 
 // COMPONENTES
 import PageDefault from "../../../../../../components/PageDefault";
 import CardItem from "../../../../../../components/CardItem";
 import Table from "../../../../../../components/Table";
 import { TableNewButton, TableReturnButton, TableTrEditButton, TableTrQrCodeButton, TableTrRecoverButton, TableTrTrashButton, TableTrashButton } from "../../../../../../components/Table/buttons";
+import { TbArrowsRandom } from "react-icons/tb";
 
 const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
 
@@ -19,6 +20,8 @@ const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
 
     // ESTADOS DO COMPONENTE
     const [ action, setAction ] = useState(false);
+    const [ open, setOpen ] = useState(false);
+    const [ load, setLoad ] = useState(false);
 
     // DEFINE COLUNAS DA TABELA
     const column = [
@@ -34,6 +37,20 @@ const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
         ) },
     ]
 
+    const [ form ] = Form.useForm()
+
+    const onSend = (values: any) => {
+        setLoad(true)
+        values.STATIONARY_BUCKET_GROUP_ID = ID
+        POST_API(`/${path}/gerar.php`, { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
+            if (res.return) {
+                message.success(res.msg)
+                setAction(!action)
+                setOpen(false)
+            } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
+        }).catch(POST_CATCH).finally( () => setLoad(false) )
+    }
+
     return (
         <PageDefault valid={`${permission}.${type}`} items={[
             { title: <Link to='/painel/cacambas'>Caçambas</Link> },
@@ -41,6 +58,7 @@ const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
             { title: type === 'list' ? 'Lista' : 'Lixeira' },
         ]} options={
             <Row justify={'end'} gutter={[8,8]}>
+                <Col><Button onClick={() => setOpen(true)} size="small" shape="circle" type='text' className="page-default-button"><TbArrowsRandom /></Button></Col>
                 <TableNewButton type={type} permission={permission} />
                 <TableTrashButton type={type} permission={permission} />
                 <TableReturnButton type={type} permission={permission} />
@@ -59,6 +77,16 @@ const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
                     </CardItem>
                 </Col>
             </Row>
+            <Modal title="Gerar códigos aleatórios" open={open} onCancel={() => setOpen(false)} destroyOnClose okText="Gerar" cancelText="Cancelar" onOk={form.submit} confirmLoading={load}>
+                <Form layout="vertical" form={form} onFinish={onSend}>
+                    <Form.Item name={"QTDE_CODE"} label="Quantidade de códigos gerados" rules={[{required: true, message: 'Campo obrigatório!'}]}>
+                        <Input type="number" placeholder="Quantidade de códigos gerados" />
+                    </Form.Item>
+                    <Form.Item name={"QTDE_CARC"} label="Quantidade de caracteres por código" rules={[{required: true, message: 'Campo obrigatório!'}]}>
+                        <Input type="number" placeholder="Quantidade de caracteres por código" />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </PageDefault>
     )
 

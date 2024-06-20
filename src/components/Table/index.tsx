@@ -23,9 +23,10 @@ interface TableInterface {
     action: any,
     useFilter?: any[],
     defaultFilter?: any,
+    getList?: any,
 }
 
-function Table ( { column, path, type, action, useFilter = [], defaultFilter = null } : TableInterface ) {
+function Table ( { column, path, type, action, useFilter = [], defaultFilter = null, getList = null } : TableInterface ) {
 
     // ESTADOS DO COMPONENTE
     const [ data, setData ] = useState([]);
@@ -46,6 +47,7 @@ function Table ( { column, path, type, action, useFilter = [], defaultFilter = n
         setLoad(true)
         await POST_API(`/${path}/search.php`, { token: getToken(), filter: JSON.stringify({...filter, ...defaultFilter}), pagination: JSON.stringify(pagination), sorter: JSON.stringify(sorter), search, type }).then(rs => rs.json()).then(res => {
             if (res.return) {
+                if (getList) getList(res.data)
                 setData(res.data)
                 setTotal(res.summary.QTDE)
             } else {
