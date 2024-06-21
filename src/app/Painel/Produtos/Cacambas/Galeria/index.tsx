@@ -50,7 +50,11 @@ const CacambasGaleria = ({ type, path, permission }: PageDefaultProps) => {
   const onSave = () => {
     setLoad(true);
     POST_API(`/${path}`, {
-      files: fileList.map((v: any) => v.response.url),
+      urls: JSON.stringify(
+        fileList.map((v: any) => ({
+          url: v.response.url,
+        }))
+      ),
       group_id: ID,
     })
       .then((rs) => rs.json())
@@ -94,7 +98,7 @@ const CacambasGaleria = ({ type, path, permission }: PageDefaultProps) => {
                   {data.map((v: any, i: any) => (
                     <Col key={i} xs={24} md={6}>
                       <Card size="small" hoverable>
-                        <Image src={v.URL} width={"100%"} />
+                        <Image src={v.url} width={"100%"} />
                         <center style={{ marginTop: 8 }}>
                           <TableTrTrashButton
                             type={"list"}
