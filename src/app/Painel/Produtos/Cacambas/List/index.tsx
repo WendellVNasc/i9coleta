@@ -89,8 +89,8 @@ const CacambasList = ({ type, path, permission }: PageDefaultProps) => {
     },
     {
       title: "Dias Locação",
-      dataIndex: "DAYS_EXTERNAL",
-      table: "stationary_bucket_group.DAYS_EXTERNAL",
+      dataIndex: "days_external",
+      table: "days_external",
       width: "180px",
       sorter: true,
       align: "left",
@@ -99,13 +99,13 @@ const CacambasList = ({ type, path, permission }: PageDefaultProps) => {
           <Typography>
             Loc. Externa:{" "}
             <span style={{ color: "var(--color01)", float: "right" }}>
-              Até {item.DAYS_EXTERNAL} dias
+              Até {item.days_external} dias
             </span>
           </Typography>
           <Typography>
             Loc. Interna:{" "}
             <span style={{ color: "var(--color01)", float: "right" }}>
-              Até {item.DAYS_INTERNAL} dias
+              Até {item.days_internal} dias
             </span>
           </Typography>
         </div>

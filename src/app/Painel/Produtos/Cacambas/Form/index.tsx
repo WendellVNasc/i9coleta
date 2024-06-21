@@ -19,6 +19,7 @@ import { TableReturnButton } from "../../../../../components/Table/buttons";
 
 // SERVIÇOS
 import {
+  GET_API,
   POST_API,
   POST_CATCH,
   PageDefaultProps,
@@ -27,11 +28,11 @@ import {
 } from "../../../../../services";
 
 // COMPONENTES
-import PageDefault from "../../../../../components/PageDefault"
-import CardItem from "../../../../../components/CardItem"
-import LoadItem from "../../../../../components/LoadItem"
-import SelectSearch from "../../../../../components/SelectSearch"
-import { TbArrowsRandom } from "react-icons/tb"
+import PageDefault from "../../../../../components/PageDefault";
+import CardItem from "../../../../../components/CardItem";
+import LoadItem from "../../../../../components/LoadItem";
+import SelectSearch from "../../../../../components/SelectSearch";
+import { TbArrowsRandom } from "react-icons/tb";
 
 const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
   // RESPONSAVEL PELA ROTA
@@ -59,24 +60,24 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
       setLoad(false);
     } else {
       setLoad(true);
-      POST_API(`/${path}/search.php`, {
-        token: getToken(),
-        filter: JSON.stringify({ ID: ID }),
-        type,
-      })
-        .then((rs) => rs.json())
-        .then((res) => {
-          if (res.return) {
-            form.setFieldsValue(res.data[0]);
-            setResideSelect(res.data[0].RESIDES);
-            setTypeLocal(res.data[0].TYPE_LOCAL);
-            setModel({ ID: res.data[0].STATIONARY_BUCKET_TYPE_ID });
-            setProvider({ ID: res.data[0].CREDENTIAL_ID });
-          } else {
-            Modal.warning({ title: "Algo deu errado", content: res.msg });
+      GET_API(`/${path}/${ID}`)
+        .then((rs) => {
+          if (!rs.ok) {
+            Modal.warning({ title: "Algo deu errado", content: rs.statusText });
           }
+          return rs.json();
         })
-        .catch(POST_CATCH)
+        .then((res) => {
+          form.setFieldsValue(res.data);
+          // setResideSelect(res.data[0].RESIDES);
+          setTypeLocal(res.data.type_local);
+          setModel({ ID: res.data.stationary_bucket_type_id });
+          setProvider({ ID: res.data.provider_id });
+        })
+        .catch((e: any) => {
+          console.log(e);
+          POST_CATCH();
+        })
         .finally(() => setLoad(false));
     }
   }, [type, path, form, ID]);
@@ -171,12 +172,13 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
                         effect={model}
                         value={form.getFieldValue("stationary_bucket_type_id")}
                         url="/stationary_bucket_type"
-                        change={(v: any) =>
+                        change={(v: any) => {
+                          console.log(v);
                           form.setFieldValue(
                             "stationary_bucket_type_id",
                             v.value
-                          )
-                        }
+                          );
+                        }}
                         labelField="name"
                       />
                     </Form.Item>

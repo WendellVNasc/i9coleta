@@ -12,7 +12,7 @@ interface SelectSearchInterface {
   value: string;
   placeholder: string;
   disabled?: boolean;
-  effect?: string;
+  effect?: any;
   labelField?: string | Array<string>;
 }
 
@@ -64,20 +64,25 @@ const SelectSearch = ({
       .finally(() => setLoad(false));
   };
 
-  // DEFAULT VALUE
-  // useEffect(() => {
-  //   if (effect !== null) {
-  //     setLoad(true);
-  //     POST_API(url, { token: getToken(), filters: JSON.stringify(effect) })
-  //       .then((rs) => rs.json())
-  //       .then((res) => {
-  //         setOptions(res.data ? res.data : []);
-  //         if (res.data?.[0]) change(res.data?.[0], []);
-  //       })
-  //       .catch(POST_CATCH)
-  //       .finally(() => setLoad(false));
-  //   }
-  // }, [effect]);
+  //DEFAULT VALUE
+  useEffect(() => {
+    if (effect !== null) {
+      setLoad(true);
+      GET_API(`${url}?id=${effect.ID}`)
+        .then((rs) => rs.json())
+        .then((res) => {
+          let arrayValues = res.data
+            ? transformArray(res.data, "id", labelField)
+            : [];
+          setOptions(arrayValues);
+          if (arrayValues?.[0]) {
+            change(arrayValues?.[0], []);
+          }
+        })
+        .catch(POST_CATCH)
+        .finally(() => setLoad(false));
+    }
+  }, [effect]);
 
   return (
     <Select
