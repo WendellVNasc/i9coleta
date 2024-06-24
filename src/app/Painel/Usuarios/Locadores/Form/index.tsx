@@ -46,7 +46,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
       setLoad(false);
     } else {
       setLoad(true);
-      GET_API(`/${path}/${ID}`)
+      GET_API(`/user/${ID}`)
         .then((rs) => {
           if (rs.ok) {
             return rs.json();
@@ -54,21 +54,13 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
             Modal.warning({ title: "Algo deu errado", content: rs.statusText });
           }
         })
-        .then((res) => {    G
+        .then((res) => {
+          setDoc(String(res.data.document_number).length > 15);
+          setCity({ ID: res.data.city_id });
           form.setFieldsValue(res.data);
         })
         .catch(POST_CATCH)
         .finally(() => setLoad(false));
-      // POST_API(`/${path}/search.php`, { token: getToken(), filter: JSON.stringify({ ID: ID }), type }).then(rs => rs.json()).then(res => {
-      //     if (res.return) {
-      //         setDoc(String(res.data[0].LOGIN).length > 15)
-      //         setTimeout(() => {
-      //             setState({ID: res.data[0].STATE_ID})
-      //             setCity({ID: res.data[0].CITY_ID})
-      //             form.setFieldsValue(res.data[0])
-      //         }, 500);
-      //     } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
-      // }).catch(POST_CATCH).finally( () => setLoad(false))
     }
   }, [type, path, form, ID]);
 
@@ -142,7 +134,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={6}>
                     <Form.Item
-                      name="LOGIN"
+                      name="document_number"
                       label="Login"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -171,7 +163,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                     <>
                       <Col xs={24} md={10}>
                         <Form.Item
-                          name="NAME"
+                          name="name"
                           label="Razão Social"
                           rules={[
                             { required: true, message: "Campo obrigatório!" },
@@ -190,7 +182,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                     <>
                       <Col xs={24} md={18}>
                         <Form.Item
-                          name="NAME"
+                          name="name"
                           label="Nome"
                           rules={[
                             { required: true, message: "Campo obrigatório!" },
@@ -203,7 +195,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                   )}
                   <Col xs={24} md={7}>
                     <Form.Item
-                      name="EMAIL_01"
+                      name="email"
                       label="E-mail Principal"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -213,13 +205,13 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={7}>
-                    <Form.Item name="EMAIL_02" label="E-mail Secundário">
+                    <Form.Item name="secondary_email" label="E-mail Secundário">
                       <Input placeholder="E-mail Secundário" />
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={5}>
                     <Form.Item
-                      name="PHONE_01"
+                      name="phone"
                       label="Telefone Principal"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -229,13 +221,16 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={5}>
-                    <Form.Item name="PHONE_02" label="Telefone Secundário">
+                    <Form.Item
+                      name="secondary_phone"
+                      label="Telefone Secundário"
+                    >
                       <Input placeholder="Telefone Secundário" />
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={3}>
                     <Form.Item
-                      name="CEP"
+                      name="zip_code"
                       label="CEP"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -251,7 +246,7 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={21}>
                     <Form.Item
-                      name="STREET"
+                      name="street"
                       label="Logradouro"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -261,13 +256,13 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={4}>
-                    <Form.Item name="NUMB" label="Número">
+                    <Form.Item name="number" label="Número">
                       <Input placeholder="Número" disabled={loadCEP} />
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={10}>
                     <Form.Item
-                      name="DISTRICT"
+                      name="district"
                       label="Bairro"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -276,10 +271,10 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                       <Input placeholder="Bairro" disabled={loadCEP} />
                     </Form.Item>
                   </Col>
-                  <Col xs={24} md={7}>
+                  <Col xs={24} md={10}>
                     <Form.Item
-                      name="CITY_ID"
-                      label="Cidade"
+                      name="city_id"
+                      label="Cidade - Estado"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
                       ]}
@@ -288,34 +283,16 @@ const LocadoresForm = ({ type, path, permission }: PageDefaultProps) => {
                         effect={city}
                         placeholder="Cidade"
                         disabled={loadCEP}
-                        url="/city/select.php"
-                        value={form.getFieldValue("CITY_ID")}
+                        url="/city"
+                        value={form.getFieldValue("city_id")}
                         change={(v: any) =>
-                          form.setFieldValue("CITY_ID", v.value)
+                          form.setFieldValue("city_id", v.value)
                         }
+                        labelField={["name", "state.acronym"]}
                       />
                     </Form.Item>
                   </Col>
-                  <Col xs={24} md={3}>
-                    <Form.Item
-                      name="STATE_ID"
-                      label="Estado"
-                      rules={[
-                        { required: true, message: "Campo obrigatório!" },
-                      ]}
-                    >
-                      <SelectSearch
-                        effect={state}
-                        placeholder="Estado"
-                        disabled={loadCEP}
-                        url="/state/select.php"
-                        value={form.getFieldValue("STATE_ID")}
-                        change={(v: any) =>
-                          form.setFieldValue("STATE_ID", v.value)
-                        }
-                      />
-                    </Form.Item>
-                  </Col>
+
                   {doc ? (
                     <>
                       <Col xs={24} md={8}>

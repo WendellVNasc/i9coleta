@@ -56,7 +56,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
           }
         })
         .then((res) => {
-          setState({ ID: res.data.city.state.id });
+          setDoc(String(res.data.document_number).length > 15);
           setCity({ ID: res.data.city_id });
           form.setFieldsValue(res.data);
         })
@@ -290,27 +290,6 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       />
                     </Form.Item>
                   </Col>
-                  {/* <Col xs={24} md={3}>
-                    <Form.Item
-                      name="state"
-                      label="Estado"
-                      rules={[
-                        { required: true, message: "Campo obrigatório!" },
-                      ]}
-                    >
-                      <SelectSearch
-                        placeholder="Estado"
-                        effect={state}
-                        disabled={loadCEP}
-                        url="/state"
-                        value={form.getFieldValue("state")}
-                        change={(v: any) =>
-                          form.setFieldValue("state", v.value)
-                        }
-                        labelField="acronym"
-                      />
-                    </Form.Item>
-                  </Col> */}
                   {doc ? (
                     <>
                       <Col xs={24} md={8}>

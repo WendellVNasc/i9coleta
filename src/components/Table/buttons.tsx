@@ -173,23 +173,6 @@ export const TableTrPhotoButton = ({
           action();
         })
         .catch(POST_CATCH);
-
-      // POST_API("/credential/save.php", {
-      //   token: getToken(),
-      //   master: JSON.stringify({
-      //     PHOTO: value.file.response?.url,
-      //     id: item.id,
-      //   }),
-      // })
-      //   .then((rs) => rs.json())
-      //   .then((res) => {
-      //     if (res.return) {
-      //       action();
-      //     } else {
-      //       Modal.warning({ title: "Algo deu errado", content: res.msg });
-      //     }
-      //   })
-      //   .catch(POST_CATCH);
     }
   };
   if (type === "list" && verifyConfig(`${permission}.edit`)) {
