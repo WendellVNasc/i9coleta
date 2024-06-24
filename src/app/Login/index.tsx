@@ -1,6 +1,16 @@
 // BIBLIOTECAS REACT
 import { useEffect, useState } from "react";
-import { Button, Col, Form, Image, Input, Row, message, Switch } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Input,
+  Row,
+  message,
+  Switch,
+  Modal,
+} from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 // SERVIÇOS
@@ -35,18 +45,20 @@ const Login = () => {
   // FUNÇÃO LOGIN
   const onSend = async (values: any) => {
     setLoading(true);
-    let response: Response = await POST_API("/login", {
-      document_number: values.LOGIN,
-      password: values.PASS,
-    });
-    let data: LoginResponse = await response.json();
-    if (response.ok) {
-      setToken(data.token);        
-      navigate("/profile");
-    } else {
-      message.error("Usuário ou senha inválidos!");
-    }
-    setLoading(false);
+    POST_API(`/login`, values)
+      .then((rs) => {
+        if (rs.ok) {
+          return rs.json();
+        } else {
+          message.error("Usuário ou senha inválidos!");
+        }
+      })
+      .then((data) => {
+        setToken(data.token);
+        //   navigate("/profile");
+      })
+      .catch(POST_CATCH)
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -64,7 +76,7 @@ const Login = () => {
             <Form style={{ width: "100%" }} onFinish={onSend} form={form}>
               <Col span={24}>
                 <Form.Item
-                  name="LOGIN"
+                  name="document_number"
                   rules={[{ required: true, message: "Campo obrigatório!" }]}
                 >
                   <Input
@@ -88,7 +100,7 @@ const Login = () => {
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name="PASS"
+                  name="password"
                   rules={[{ required: true, message: "Campo obrigatório!" }]}
                 >
                   <Input
