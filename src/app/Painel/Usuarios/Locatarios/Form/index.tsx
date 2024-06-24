@@ -57,8 +57,10 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
         })
         .then((res) => {
           setDoc(String(res.data.document_number).length > 15);
-          setCity({ ID: res.data.city_id });
-          form.setFieldsValue(res.data);
+          setTimeout(() => {
+            setCity({ ID: res.data.city_id });
+            form.setFieldsValue(res.data);
+          }, 300);
         })
         .catch(POST_CATCH)
         .finally(() => setLoad(false));
@@ -308,7 +310,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={6}>
                         <Form.Item
-                          name="RESPONSIBLE_OFFICE"
+                          name="responsible_office"
                           label="Resp. - Cargo"
                         >
                           <Input placeholder="Resp. - Cargo" />
@@ -316,7 +318,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={6}>
                         <Form.Item
-                          name="RESPONSIBLE_DEPARTAMENT"
+                          name="responsible_department"
                           label="Resp. - Departamento"
                         >
                           <Input placeholder="Resp. - Departamento" />
@@ -324,7 +326,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={7}>
                         <Form.Item
-                          name="RESPONSIBLE_EMAIL_01"
+                          name="responsable_email"
                           label="Resp. - E-mail Principal"
                         >
                           <Input placeholder="Resp. - E-mail Principal" />
@@ -332,7 +334,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={7}>
                         <Form.Item
-                          name="RESPONSIBLE_EMAIL_02"
+                          name="responsible_secondary_email"
                           label="Resp. - E-mail Secundário"
                         >
                           <Input placeholder="Resp. - E-mail Secundário" />
@@ -340,7 +342,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={5}>
                         <Form.Item
-                          name="RESPONSIBLE_PHONE_01"
+                          name="responsable_phone"
                           label="Resp. - Telefone Principal"
                         >
                           <Input placeholder="Resp. - Telefone Principal" />
@@ -348,7 +350,7 @@ const LocatariosForm = ({ type, path, permission }: PageDefaultProps) => {
                       </Col>
                       <Col xs={24} md={5}>
                         <Form.Item
-                          name="RESPONSIBLE_PHONE_02"
+                          name="responsible_secondary_phone"
                           label="Resp. - Telefone Secundário"
                         >
                           <Input placeholder="Resp. - Telefone Secundário" />

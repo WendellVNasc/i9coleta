@@ -336,7 +336,7 @@ const Painel = () => {
                       menu={menu}
                       url={url}
                       permission={[
-                        "dsh.devFi",
+                        "dsh.devFn",
                         "dsh.fncFi",
                         "dsh.clnFi",
                         "dsh.pltFi",
