@@ -511,11 +511,7 @@ export const TableTrRecoverButton = ({
       cancelText: "Não",
       okText: "Sim",
       onOk() {
-        POST_API(`/${path}/del.php`, {
-          token: getToken(),
-          id: item.id,
-          type: "rec",
-        })
+        POST_API(`/${path}`, {recover: true}, item.id)
           .then((rs) => rs.json())
           .then((res) => {
             if (res.return) {
