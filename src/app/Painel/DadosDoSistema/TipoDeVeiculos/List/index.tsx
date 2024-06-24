@@ -19,7 +19,7 @@ const TiposDeVeiculosList = ({ type, path, permission } : PageDefaultProps ) => 
 
     // DEFINE COLUNAS DA TABELA
     const column = [
-        { title: 'Tipo', dataIndex: 'name', table: 'name', width: 'auto', sorter: true, align: 'left', render: null },
+        { title: 'Tipo', dataIndex: 'name', table: 'name', width: 'auto', minWidth: '100px', sorter: true, align: 'left', render: null },
         { title: 'Ações', dataIndex: null, width: '100px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <TableTrEditButton type={type} permission={permission} item={item} />

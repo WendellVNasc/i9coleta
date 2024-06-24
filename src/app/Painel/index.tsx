@@ -21,13 +21,11 @@ import logo from "../../assets/images/logos/Tipografia/PNG_.Tipografia Branca - 
 
 // SERVIÇOS
 import {
-  GET_API,
   POST_API,
   POST_CATCH,
   delConfig,
   delToken,
   getToken,
-  setConfig,
   verifyConfig,
 } from "../../services";
 
@@ -64,8 +62,6 @@ import "./styles.css";
 import {
   TbCalendarCheck,
   TbCalendarEvent,
-  TbShoppingCartCheck,
-  TbTruckDelivery,
 } from "react-icons/tb";
 import { getConfig } from "@testing-library/react";
 

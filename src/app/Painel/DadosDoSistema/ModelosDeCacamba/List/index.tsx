@@ -48,6 +48,7 @@ const ModelosDeCacambaList = ({ type, path, permission }: PageDefaultProps) => {
       dataIndex: "name",
       table: "name",
       width: "auto",
+      minWidth: '100px',
       sorter: true,
       align: "left",
       render: null,

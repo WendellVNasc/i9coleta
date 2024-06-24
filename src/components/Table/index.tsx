@@ -23,10 +23,7 @@ import { IoFilter } from "react-icons/io5";
 // SERVIÇOS
 import {
   GET_API,
-  POST_API,
-  POST_CATCH,
   getJsonValue,
-  getToken,
 } from "../../services";
 
 // CSS
@@ -96,6 +93,10 @@ function Table({
         url += `&${key}=${value}`;
       }
     });
+
+    if (type === 'trash') {
+      url += `&trash=true`
+    }
 
     await GET_API(url)
       .then((response) => {

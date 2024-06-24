@@ -360,25 +360,25 @@ const RoutesStack = () => {
             <Route
               path=""
               element={
-                <ResiduosList type="list" path="reside" permission="rsd" />
+                <ResiduosList type="list" path="residue" permission="rsd" />
               }
             />
             <Route
               path="lixeira"
               element={
-                <ResiduosList type="trash" path="reside" permission="rsd" />
+                <ResiduosList type="trash" path="residue" permission="rsd" />
               }
             />
             <Route
               path="novo"
               element={
-                <ResiduosForm type="add" path="reside" permission="rsd" />
+                <ResiduosForm type="add" path="residue" permission="rsd" />
               }
             />
             <Route
               path=":ID"
               element={
-                <ResiduosForm type="edit" path="reside" permission="rsd" />
+                <ResiduosForm type="edit" path="residue" permission="rsd" />
               }
             />
           </Route>

@@ -8,8 +8,7 @@ import {
   Input,
   Row,
   message,
-  Switch,
-  Modal,
+  Switch
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -22,14 +21,11 @@ import {
   setToken,
 } from "../../services";
 
-import ProfileModal from "./Profile";
-
 // ICONES
 import { IoIdCardOutline, IoLockOpenOutline } from "react-icons/io5";
 
 // IMAGENS
 import logo from "../../assets/images/logos/Logo Completa/PNG_.Completa - Fundo Transparente.png";
-import { LoginResponse } from "../types/LoginResponse";
 
 const Login = () => {
   // RESPONSAVEL PELA ROTA
