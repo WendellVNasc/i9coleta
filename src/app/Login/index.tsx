@@ -55,7 +55,7 @@ const Login = () => {
       })
       .then((data) => {
         setToken(data.token);
-        //   navigate("/profile");
+          navigate("/profile");
       })
       .catch(POST_CATCH)
       .finally(() => setLoading(false));

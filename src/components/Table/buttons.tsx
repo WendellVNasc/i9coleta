@@ -8,6 +8,7 @@ import {
   POST_API,
   POST_CATCH,
   UPLOAD_API,
+  getProfileID,
   getToken,
   verifyConfig,
 } from "../../services";
@@ -160,22 +161,35 @@ export const TableTrPhotoButton = ({
 }: TableButtonInterface) => {
   const onChangePic = (value: any) => {
     if (value.file.response?.url) {
-      POST_API("/credential/save.php", {
-        token: getToken(),
-        master: JSON.stringify({
-          PHOTO: value.file.response?.url,
-          id: item.id,
-        }),
-      })
-        .then((rs) => rs.json())
-        .then((res) => {
-          if (res.return) {
-            action();
+      POST_API(`/user`, { photo: value.file.response?.url }, item.id)
+        .then((rs) => {
+          if (rs.ok) {
+            return rs.json();
           } else {
-            Modal.warning({ title: "Algo deu errado", content: res.msg });
+            Modal.warning({ title: "Algo deu errado", content: rs.statusText });
           }
         })
+        .then((data) => {
+          action();
+        })
         .catch(POST_CATCH);
+
+      // POST_API("/credential/save.php", {
+      //   token: getToken(),
+      //   master: JSON.stringify({
+      //     PHOTO: value.file.response?.url,
+      //     id: item.id,
+      //   }),
+      // })
+      //   .then((rs) => rs.json())
+      //   .then((res) => {
+      //     if (res.return) {
+      //       action();
+      //     } else {
+      //       Modal.warning({ title: "Algo deu errado", content: res.msg });
+      //     }
+      //   })
+      //   .catch(POST_CATCH);
     }
   };
   if (type === "list" && verifyConfig(`${permission}.edit`)) {
@@ -189,6 +203,10 @@ export const TableTrPhotoButton = ({
           <Upload
             accept="image/jpg,image/jpeg,image/png"
             maxCount={1}
+            headers={{
+              Authorization: "Bearer " + getToken(),
+              Profile: getProfileID(),
+            }}
             showUploadList={false}
             action={UPLOAD_API}
             onChange={onChangePic}

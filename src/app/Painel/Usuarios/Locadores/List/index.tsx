@@ -19,11 +19,11 @@ const LocadoresList = ({ type, path, permission } : PageDefaultProps ) => {
 
     // DEFINE COLUNAS DA TABELA
     const column = [
-        { title: 'Logo', dataIndex: 'PHOTO', table: 'credential.PHOTO', width: '60px', sorter: false, align: 'center', render: (item:any) => <Row justify={'center'} style={{width: '100%'}}><Avatar src={item.PHOTO ? item.PHOTO : null} /></Row> },
-        { title: 'Nome', dataIndex: 'NAME', table: 'credential.NAME', width: 'auto', sorter: true, align: 'left', render: null },
-        { title: 'CPF/CNPJ', dataIndex: 'LOGIN', table: 'credential.LOGIN', width: '200px', sorter: true, align: 'center', render: null },
-        { title: 'Cidade', dataIndex: 'CITY_NAME', table: 'city.NAME', width: '150px', sorter: true, align: 'center', render: null },
-        { title: 'Estado', dataIndex: 'STATE_NAME', table: 'state.NAME', width: '100px', sorter: true, align: 'center', render: null },
+        { title: 'Logo', dataIndex: 'photo', table: 'photo', width: '60px', sorter: false, align: 'center', render: (item:any) => <Row justify={'center'} style={{width: '100%'}}><Avatar src={item.photo ? item.photo : null} /></Row> },
+        { title: 'Nome', dataIndex: 'name', table: 'name', width: 'auto', sorter: true, align: 'left', render: null },
+        { title: 'CPF/CNPJ', dataIndex: 'document_number', table: 'document_number', width: '200px', sorter: true, align: 'center', render: null },
+        { title: 'Cidade', dataIndex: 'city.name', table: 'city.name', width: '150px', sorter: true, align: 'center', render: null },
+        { title: 'Estado', dataIndex: 'city.state.name', table: 'city.state.name', width: '100px', sorter: true, align: 'center', render: null },
         { title: 'Ações', dataIndex: null, width: '120px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <TableTrPhotoButton type={type} permission={permission} item={item} action={() => setAction(!action)}/>
