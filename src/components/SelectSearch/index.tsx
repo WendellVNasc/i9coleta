@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { Select, Spin } from "antd";
 
 // SERVIÇOS
-import { GET_API, POST_API, POST_CATCH, getToken } from "../../services";
+import {
+  GET_API,
+  POST_API,
+  POST_CATCH,
+  getJsonValue,
+  getToken,
+} from "../../services";
 
 // INTERFACE
 interface SelectSearchInterface {
@@ -22,7 +28,8 @@ function transformArray(data: any, valueField: any, labelFields: any) {
     let label;
 
     if (Array.isArray(labelFields)) {
-      label = `${item[labelFields[0]]} - ${item[labelFields[1]]}`;
+      label = `${getJsonValue(item, labelFields[0])}
+       - ${getJsonValue(item, labelFields[1])}`;
     } else {
       label = item[labelFields];
     }
@@ -68,7 +75,24 @@ const SelectSearch = ({
   useEffect(() => {
     if (effect !== null) {
       setLoad(true);
-      GET_API(`${url}?id=${effect.ID}`)
+      // determinar a url de consulta por ID ou por search e filters (usado para buscar por cidade)
+      if (effect.ID != undefined) {
+        url += `?id=${effect.ID}`;
+      }
+
+      if (effect.search != undefined) {
+        url = `${url}?search=${effect.search}`;
+      }
+
+      if (effect.filters != undefined) {
+        Object.entries(effect.filters).forEach(([key, value]) => {
+          if (value != undefined && value != null) {
+            url += `&${key}=${value}`;
+          }
+        });
+      }
+
+      GET_API(url)
         .then((rs) => rs.json())
         .then((res) => {
           let arrayValues = res.data

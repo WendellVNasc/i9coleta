@@ -16,6 +16,7 @@ import { TableReturnButton } from "../../../../../components/Table/buttons";
 
 // SERVIÇOS
 import {
+  GET_API,
   MaskCNPJ,
   MaskCPF,
   POST_API,
@@ -65,19 +66,16 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
       setLoad(false);
     } else {
       setLoad(true);
-      POST_API(`/${path}/search.php`, {
-        token: getToken(),
-        filter: JSON.stringify({ ID: ID }),
-        type,
-      })
-        .then((rs) => rs.json())
-        .then((res) => {
-          if (res.return) {
-            form.setFieldsValue(res.data[0]);
-            setCredentialType({ ID: res.data[0].CREDENTIAL_TYPE_ID });
+      GET_API(`/user/${ID}`)
+        .then((rs) => {
+          if (rs.ok) {
+            return rs.json();
           } else {
-            Modal.warning({ title: "Algo deu errado", content: res.msg });
+            Modal.warning({ title: "Algo deu errado", content: rs.statusText });
           }
+        })
+        .then((res) => {
+          form.setFieldsValue(res.data);
         })
         .catch(POST_CATCH)
         .finally(() => setLoad(false));
@@ -87,19 +85,17 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
   // FUNÇÃO SALVAR
   const onSend = (values: any) => {
     setLoadButton(true);
-    values.ID = ID;
-    POST_API(`/${path}/save.php`, {
-      token: getToken(),
-      master: JSON.stringify(values),
-    })
-      .then((rs) => rs.json())
-      .then((res) => {
-        if (res.return) {
-          message.success(res.msg);
-          navigate("..");
+    POST_API(`/user`, values, ID)
+      .then((rs) => {
+        if (rs.ok) {
+          return rs.json();
         } else {
-          Modal.warning({ title: "Algo deu errado", content: res.msg });
+          Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
+      })
+      .then((data) => {
+        message.success("Salvo com sucesso!");
+        navigate("..");
       })
       .catch(POST_CATCH)
       .finally(() => setLoadButton(false));
@@ -110,7 +106,7 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
     // if(value === 1 and ){
     //   setProfileType(ProfileTypes[0]);
     // }
-    console.log(doc)
+    console.log(doc);
   };
   useEffect(() => {
     form.resetFields();
@@ -141,7 +137,7 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={6}>
                     <Form.Item
-                      name="LOGIN"
+                      name="document_number"
                       label="Login"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -168,7 +164,7 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                   <Col xs={24} md={12}>
                     <Form.Item
-                      name="NAME"
+                      name="name"
                       label="Nome"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -177,7 +173,7 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                       <Input placeholder="Nome" />
                     </Form.Item>
                   </Col>
-                  <Col xs={12} md={6}>
+                  {/* <Col xs={12} md={6}>
                     <Form.Item
                       name="CREDENTIAL_TYPE_ID"
                       label="Tipo de Usuário"
@@ -191,10 +187,10 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                         <Select.Option value={4}>Administrador</Select.Option>
                       </Select>
                     </Form.Item>
-                  </Col>
+                  </Col> */}
                   <Col xs={24} md={7}>
                     <Form.Item
-                      name="EMAIL_01"
+                      name="email"
                       label="E-mail Principal"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -204,13 +200,13 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={7}>
-                    <Form.Item name="EMAIL_02" label="E-mail Secundário">
+                    <Form.Item name="secondary_email" label="E-mail Secundário">
                       <Input placeholder="E-mail Secundário" />
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={5}>
                     <Form.Item
-                      name="PHONE_01"
+                      name="phone"
                       label="Telefone Principal"
                       rules={[
                         { required: true, message: "Campo obrigatório!" },
@@ -220,7 +216,10 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={5}>
-                    <Form.Item name="PHONE_02" label="Telefone Secundário">
+                    <Form.Item
+                      name="secondary_phone"
+                      label="Telefone Secundário"
+                    >
                       <Input placeholder="Telefone Secundário" />
                     </Form.Item>
                   </Col>
@@ -246,6 +245,17 @@ const SistemaForm = ({ type, path, permission }: PageDefaultProps) => {
                   </Col>
                 </Row>
               </Form>
+            </CardItem>
+          )}
+        </Col>
+      </Row>
+      {/* depois o wendel arrruma o br */}
+      <br />
+      <Row gutter={[16, 16]}>
+        <Col md={24} xs={24}>
+          {type === "edit" && (
+            <CardItem>
+              <h1></h1>
             </CardItem>
           )}
         </Col>

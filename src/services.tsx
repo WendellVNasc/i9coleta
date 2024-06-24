@@ -159,6 +159,22 @@ export const verifyConfig = (value: any) => {
   }
 };
 
+export const getJsonValue = (data: any, param: any) => {
+  const paramAsString: string = String(param);; // Aqui estamos forçando a conversão para string
+
+  const keys = paramAsString.split(".");
+  let value = data;
+
+  for (let key of keys) {
+    value = value[key];
+    if (value === undefined) {
+      return undefined; // Retorna undefined se a chave não existe
+    }
+  }
+
+  return value;
+};
+
 export function MaskCNPJ(event: any): any {
   var text = event.target.value;
 

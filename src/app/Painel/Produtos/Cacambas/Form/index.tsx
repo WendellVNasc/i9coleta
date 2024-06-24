@@ -75,7 +75,6 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
           setProvider({ ID: res.data.provider_id });
         })
         .catch((e: any) => {
-          console.log(e);
           POST_CATCH();
         })
         .finally(() => setLoad(false));
@@ -173,7 +172,6 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
                         value={form.getFieldValue("stationary_bucket_type_id")}
                         url="/stationary_bucket_type"
                         change={(v: any) => {
-                          console.log(v);
                           form.setFieldValue(
                             "stationary_bucket_type_id",
                             v.value

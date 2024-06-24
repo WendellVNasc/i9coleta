@@ -21,7 +21,13 @@ import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 
 // SERVIÇOS
-import { GET_API, POST_API, POST_CATCH, getToken } from "../../services";
+import {
+  GET_API,
+  POST_API,
+  POST_CATCH,
+  getJsonValue,
+  getToken,
+} from "../../services";
 
 // CSS
 import "./styles.css";
@@ -31,13 +37,13 @@ import SelectSearch from "../SelectSearch";
 
 // INTERFACE
 interface TableInterface {
-    column: any[],
-    path: string,
-    type: string,
-    action: any,
-    useFilter?: any[],
-    defaultFilter?: any,
-    getList?: any,
+  column: any[];
+  path: string;
+  type: string;
+  action: any;
+  useFilter?: any[];
+  defaultFilter?: any;
+  getList?: any;
 }
 
 function Table({
@@ -264,7 +270,7 @@ function Table({
               </Col>
             </Row>
           ) : data.length > 0 ? (
-            data.map((v, i) => (
+            data.map((v: any, i) => (
               <Row className="table-body" key={i}>
                 {column.map((cv, ci) =>
                   cv.hide ? null : (
@@ -279,7 +285,7 @@ function Table({
                           className="table-header-col-title"
                           style={{ textAlign: cv.align }}
                         >
-                          {v[cv.dataIndex]}
+                          {getJsonValue(v, [cv.dataIndex])}
                         </Typography>
                       ) : (
                         cv.render(v)
