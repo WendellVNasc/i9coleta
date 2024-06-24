@@ -511,15 +511,20 @@ export const TableTrRecoverButton = ({
       cancelText: "Não",
       okText: "Sim",
       onOk() {
-        POST_API(`/${path}`, {recover: true}, item.id)
-          .then((rs) => rs.json())
-          .then((res) => {
-            if (res.return) {
-              message.success({ content: res.msg, key: "screen" });
-              action();
+        POST_API(`/${path}`, { recover: true }, item.id)
+          .then((rs) => {
+            if (rs.ok) {
+              return rs.json();
             } else {
-              Modal.warning({ title: "Algo deu errado", content: res.msg });
+              Modal.warning({
+                title: "Algo deu errado",
+                content: rs.statusText,
+              });
             }
+          })
+          .then((data) => {
+            message.success({ content: data.message, key: "screen" });
+            action();
           })
           .catch(POST_CATCH);
       },

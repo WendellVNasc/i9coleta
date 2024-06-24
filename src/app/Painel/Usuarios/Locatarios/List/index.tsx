@@ -89,21 +89,21 @@ const LocatariosList = ({ type, path, permission }: PageDefaultProps) => {
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path="user"
+            path="client"
           />
           <TableTrRecoverButton
             type={type}
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path="user"
+            path="client"
           />
           <TableTrPassword
             type={type}
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path="user"
+            path="client"
           />
         </Row>
       ),
