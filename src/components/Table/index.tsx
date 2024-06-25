@@ -94,6 +94,12 @@ function Table({
       }
     });
 
+    Object.entries(defaultFilter).forEach(([key, value]) => {
+      if (value != undefined && value != null) {
+        url += `&${key}=${value}`;
+      }
+    });
+
     if (type === 'trash') {
       url += `&trash=true`
     }

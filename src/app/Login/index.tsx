@@ -1,15 +1,6 @@
 // BIBLIOTECAS REACT
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Image,
-  Input,
-  Row,
-  message,
-  Switch
-} from "antd";
+import { Button, Col, Form, Image, Input, Row, message, Switch } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 // SERVIÇOS
@@ -51,7 +42,7 @@ const Login = () => {
       })
       .then((data) => {
         setToken(data.token);
-          navigate("/profile");
+        navigate("/profile");
       })
       .catch(POST_CATCH)
       .finally(() => setLoading(false));

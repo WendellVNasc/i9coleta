@@ -48,7 +48,7 @@ const PedirCacamba = () => {
   // CARREGA LOCADORES
   const loadLocadores = () => {
     setLocadoresLoading(true);
-    GET_API(`/provides`)
+    GET_API(`/provider?page=${locadoresPage}`)
       .then((rs) => {
         if (rs.ok) {
           return rs.json();
@@ -59,7 +59,7 @@ const PedirCacamba = () => {
       .then((res) => {
         setLocadores([...locadores, ...res.data]);
         setLocadoresPage(locadoresPage + 1);
-        setLocadoresVerMais(!(Number(res.summary.QTDE) === locadores.length));
+        // setLocadoresVerMais(!(Number(res.summary.QTDE) === locadores.length));
       })
       .finally(() => setLocadoresLoading(false));
   };
