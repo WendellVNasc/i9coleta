@@ -21,10 +21,12 @@ import logo from "../../assets/images/logos/Tipografia/PNG_.Tipografia Branca - 
 
 // SERVIÇOS
 import {
+  GET_API,
   POST_API,
   POST_CATCH,
   delConfig,
   delToken,
+  getProfileName,
   getToken,
   verifyConfig,
 } from "../../services";
@@ -63,7 +65,6 @@ import {
   TbCalendarCheck,
   TbCalendarEvent,
 } from "react-icons/tb";
-import { getConfig } from "@testing-library/react";
 
 const Painel = () => {
   // RESPONSÁVEL PELA NAVEGAÇÃO
@@ -100,19 +101,12 @@ const Painel = () => {
   ]);
 
   useEffect(() => {
-    setUser(getConfig());
-  }, [url]);
-
-  useEffect(() => {
     // FUNÇÃO QUE OBSERVA A MUDANÇA NA ROTA PARA ATUALIZAR MENU ATIVO
     detectUrlChange.on("change", (newUrl) => {
       var params = String(newUrl).split("/");
       setUrl(params[4]);
       setMenu(false);
-      if (getToken() != null) {
-      } else {
-        navigate("/login");
-      }
+      if (getToken() == null) navigate("/login");
     });
     // VERIFICAR CARRINHO
     if (verifyConfig("dsh.cln")) {
@@ -125,6 +119,21 @@ const Painel = () => {
         .catch(POST_CATCH);
     }
   }, []);
+
+  useEffect(() => {
+    GET_API(`/me`)
+    .then((rs) => {
+      if (rs.ok) {
+        return rs.json();
+      } else {
+        Modal.warning({ title: "Algo deu errado", content: rs.statusText });
+      }
+    })
+    .then((res) => {
+      setUser({ name: res.data.name, photo: res.data.photo, profile: getProfileName() })
+    })
+    .catch(POST_CATCH)
+  })
 
   // FUNÇÃO SAIR DO SISTEMA
   const onLogOut = () => {
@@ -233,15 +242,15 @@ const Painel = () => {
                       <Avatar
                         shape="square"
                         className="painel-head-avatar"
-                        src={user?.PHOTO}
+                        src={user?.photo}
                       />
                     </Col>
                     <Col className="painel-head-text">
                       <Typography className="painel-head-typeuser">
-                        {user?.CREDENTIAL_TYPE_NAME}
+                        {user?.profile}
                       </Typography>
                       <Typography className="painel-head-nameuser">
-                        {user?.NAME}
+                        {user?.name}
                       </Typography>
                     </Col>
                   </Row>
@@ -269,13 +278,13 @@ const Painel = () => {
                   <Avatar
                     className="painel-sidebar-avatar"
                     style={{ transition: "0.2s" }}
-                    src={user?.PHOTO}
+                    src={user?.photo}
                   />
                 </Col>
                 <Col className="painel-sidebar-col">
                   {" "}
                   <Typography className="painel-sidebar-name">
-                    {user?.NAME}
+                    {user?.name}
                   </Typography>{" "}
                 </Col>
                 <Col className="painel-sidebar-col">

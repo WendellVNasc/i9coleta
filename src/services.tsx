@@ -54,6 +54,10 @@ export const getProfileID = () => {
   return JSON.parse(getProfile()).id;
 };
 
+export const getProfileName = () => {
+  return JSON.parse(getProfile()).type;
+};
+
 export const delToken = () => {
   localStorage.removeItem("TOKEN");
 };
