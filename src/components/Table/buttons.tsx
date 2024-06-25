@@ -523,7 +523,7 @@ export const TableTrRecoverButton = ({
             }
           })
           .then((data) => {
-            message.success({ content: data.message, key: "screen" });
+            message.success({ content: 'Registro recuperado', key: "screen" });
             action();
           })
           .catch(POST_CATCH);

@@ -52,32 +52,6 @@ const EstadosList = ({ type, path, permission }: PageDefaultProps) => {
       align: "center",
       render: null,
     },
-    {
-      title: "Ações",
-      dataIndex: null,
-      width: "100px",
-      sorter: false,
-      align: "center",
-      render: (item: any) => (
-        <Row justify={"center"} style={{ width: "100%" }}>
-          <TableTrEditButton type={type} permission={permission} item={item} />
-          <TableTrTrashButton
-            type={type}
-            permission={permission}
-            item={item}
-            action={() => setAction(!action)}
-            path={path}
-          />
-          <TableTrRecoverButton
-            type={type}
-            permission={permission}
-            item={item}
-            action={() => setAction(!action)}
-            path={path}
-          />
-        </Row>
-      ),
-    },
   ];
 
   return (
@@ -89,9 +63,6 @@ const EstadosList = ({ type, path, permission }: PageDefaultProps) => {
       ]}
       options={
         <Row justify={"end"} gutter={[8, 8]}>
-          <TableNewButton type={type} permission={permission} />
-          <TableTrashButton type={type} permission={permission} />
-          <TableReturnButton type={type} permission={permission} />
         </Row>
       }
     >

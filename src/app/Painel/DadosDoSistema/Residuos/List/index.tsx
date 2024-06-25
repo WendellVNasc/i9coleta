@@ -36,8 +36,8 @@ const ResiduosList = ({ type, path, permission }: PageDefaultProps) => {
     },
     {
       title: "Descrição",
-      dataIndex: "desc",
-      table: "residues.desc",
+      dataIndex: "description",
+      table: "residues.description",
       width: "auto",
       minWidth: "200px",
       sorter: true,

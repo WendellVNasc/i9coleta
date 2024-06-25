@@ -110,7 +110,7 @@ const ResiduosForm = ({ type, path, permission }: PageDefaultProps) => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={24}>
-                    <Form.Item name="desc" label="Descrição">
+                    <Form.Item name="description" label="Descrição">
                       <Input.TextArea placeholder="Descrição" />
                     </Form.Item>
                   </Col>
