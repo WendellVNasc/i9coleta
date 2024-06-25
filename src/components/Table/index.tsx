@@ -170,14 +170,14 @@ function Table({
   const verifyFilter = () => {
     var temp: Object = filterValues;
     Object.keys(temp).map((v) => {
-      setVerify(temp[v as keyof typeof filterValues] !== "*");
+      setVerify(temp[v as keyof typeof filterValues] !== "");
     });
   };
 
   const onClear = () => {
     var temp: any = filterValues;
     Object.keys(temp).map((v, i) => {
-      temp[v] = "*";
+      temp[v] = "";
     });
     setFilterValues(temp);
     setFiltLoad(true);
@@ -354,6 +354,7 @@ function Table({
                   />
                 ) : (
                   <Select
+                    allowClear
                     style={{ width: "100%" }}
                     placeholder={v.label}
                     value={filterValues[v as keyof typeof filterValues]}
