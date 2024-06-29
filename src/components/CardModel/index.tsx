@@ -16,9 +16,9 @@ const CardModel = ( { item } : CardModelInterface ) => {
 
     return (
         <div className="card-model">
-            <div className='card-model-div' onClick={() =>  navigate(`/painel/pedircacamba/modelo/${item.ID}`)}>
-                <img className="card-model-img" src={item.PHOTO} alt={item.NAME} />
-                <Typography className="card-model-title">{item.NAME}</Typography>
+            <div className='card-model-div' onClick={() =>  navigate(`/painel/pedircacamba/modelo/${item.id}`)}>
+                <img className="card-model-img" src={item.photo} alt={item.name} />
+                <Typography className="card-model-title">{item.name}</Typography>
             </div>
         </div>
     )

@@ -133,7 +133,7 @@ const Painel = () => {
       setUser({ name: res.data.name, photo: res.data.photo, profile: getProfileName() })
     })
     .catch(POST_CATCH)
-  })
+  }, [])
 
   // FUNÇÃO SAIR DO SISTEMA
   const onLogOut = () => {
@@ -422,13 +422,13 @@ const Painel = () => {
                       children={[
                         {
                           url: url,
-                          permission: "mpd.list",
+                          permission: "fcl.vrc",
                           route: "meuspedidos",
                           name: "Pedidos Realizados",
                         },
                         {
                           url: url,
-                          permission: "mpd.list",
+                          permission: "fcl.vrc",
                           route: "minhascacambas",
                           name: "Minhas Caçambas",
                         },
@@ -453,7 +453,7 @@ const Painel = () => {
                     <MenuItem
                       menu={menu}
                       url={url}
-                      permission={"mpd.add"}
+                      permission={"fcl.pdc"}
                       route="pedircacamba"
                       name="Pedir Caçamba"
                       icon={<IoCartOutline />}

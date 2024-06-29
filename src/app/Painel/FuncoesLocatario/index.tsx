@@ -38,7 +38,7 @@ const PedirCacamba = () => {
 
   // CARREGA MODELOS
   const loadModel = () => {
-    POST_API("/stationary_bucket_type/search.php", { token: getToken() })
+    GET_API("/stationary_bucket_type")
       .then((rs) => rs.json())
       .then((res) => {
         setModel(res.data);
@@ -66,11 +66,7 @@ const PedirCacamba = () => {
 
   // CARREGA CAÇAMBAS
   const loadCacambas = () => {
-    POST_API("/stationary_bucket_group", {
-      token: getToken(),
-      filter: JSON.stringify({ STOCK_VALID: true }),
-      pagination: JSON.stringify({ current: 1, total: 0, page: 4 }),
-    })
+    GET_API("/stationary_bucket_group?page=1&per_page=4")
       .then((rs) => rs.json())
       .then((res) => {
         setCacambas(res.data);
@@ -86,8 +82,8 @@ const PedirCacamba = () => {
     setLocadores([]);
 
     loadModel();
-    loadLocadores();
     loadCacambas();
+    // loadLocadores();
 
     setLoad(false);
   }, []);
