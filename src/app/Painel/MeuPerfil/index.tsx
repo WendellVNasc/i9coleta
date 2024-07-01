@@ -126,21 +126,19 @@ const MeuPerfil = () => {
   // EDITAR SENHA
   const onSendPass = (values: any) => {
     setLoadPassButton(true);
-    POST_API("/credential/self-pass.php", {
-      token: getToken(),
-      master: JSON.stringify(values),
-    })
-      .then((rs) => rs.json())
-      .then((res) => {
-        if (res.return) {
-          Modal.success({ title: "Sucesso", content: res.msg });
+    GET_API(`/change-password?old_password=${values.old_password}&password=${values.password}`).then((rs) => {
+      if (rs.ok) {
+        rs.json().then(res => {
+          Modal.success({ title: "Sucesso", content: "Senha alterada com sucesso!" });
           formPass.resetFields();
-        } else {
-          Modal.warning({ title: "Algo deu errado", content: res.msg });
-        }
-      })
-      .catch(POST_CATCH)
-      .finally(() => setLoadPassButton(false));
+        })
+      } else {
+        Modal.warning({ title: "Algo deu errado", content: 'Senha atual inválida!' });
+      }
+  })
+  .catch(POST_CATCH)
+  .finally(() => setLoadPassButton(false));
+
   };
 
   // CARREGA DADOS
@@ -255,7 +253,7 @@ const MeuPerfil = () => {
                   <Input.Password placeholder="Senha Atual" />
                 </Form.Item>
                 <Form.Item
-                  name="new_password"
+                  name="password"
                   label="Senha Nova"
                   rules={[{ required: true, message: "Campo obrigatório!" }]}
                 >

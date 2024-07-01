@@ -2,7 +2,7 @@
 import { Modal } from "antd";
 
 // URL
-const CONF_URL = "https://api-i9coleta.test";
+const CONF_URL = "https://i9coletaapi2.adsolucoestecnologia.com.br";
 
 var PATH = "";
 
@@ -83,7 +83,7 @@ export const POST_API = (
     const form = new FormData();
 
     Object.keys(data).forEach((key) => {
-      form.append(key, data[key]);
+      if (data[key] !== undefined) form.append(key, data[key]);
     });
 
     return form;

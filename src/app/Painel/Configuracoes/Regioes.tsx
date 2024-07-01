@@ -4,7 +4,7 @@ import { Button, Card, Checkbox, Col, Collapse, Input, Modal, Row, Typography } 
 import parse from 'html-react-parser';
 
 // SERVIÇOS
-import { POST_API, POST_CATCH, getToken } from "../../../services";
+import { GET_API, POST_API, POST_CATCH, getToken } from "../../../services";
 
 // COMPONENTES
 import CardItem from "../../../components/CardItem";
@@ -47,13 +47,26 @@ const Regioes = () => {
             setCidades([])
             return null
         }
-        setLoading(true)
-        POST_API('/city/state.php', { token: getToken(), type: 'list', filter: JSON.stringify({ STATE_ID: stateFilter }), search: searchFilter }).then(rs => rs.json()).then(res => {
-            if (res.return) {
-                setCidades(res.data)
-                setSummary(res.summary)
-            }
-        }).catch(POST_CATCH).finally(() => setLoading(false))
+        // setLoading(true)
+        GET_API('/city').then((response) => {
+            
+            response.json().then((res) => {
+                console.log(res.data)
+                setCidades(res.data) 
+            })
+            // if (!response.ok) {
+            //     Modal.warning({ title: "Algo deu errado" });
+            // }
+            // response.json() .then((res) => { setCidades(res.data) })
+            // .catch((error) => {});
+      })
+      .catch((error) => {});
+        // GET_API('/city').then(rs => rs.json()).then(res => {
+        //     if (res.return) {
+        //         setCidades(res.data)
+        //         console.log
+        //     }
+        // }).catch(POST_CATCH).finally(() => setLoading(false))
     }
 
     const onModal = () => setModal(!modal)
@@ -84,16 +97,16 @@ const Regioes = () => {
     }
 
     const onSend = () => {
-        setLoadSend(true)
-        POST_API('/region/save.php', { token: getToken(), master: JSON.stringify({ REGION_ID: regioesSelect }) }).then(rs => rs.json()).then(res => {
-            if (res.return) {
-                load()
-                setSearchFilter('')
-                setStateFilter(null)
-                setCidades([])
-                onModal()
-            } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
-        }).catch(POST_CATCH).finally(() => setLoadSend(false))
+        // setLoadSend(true)
+        // POST_API('/region/save.php', { token: getToken(), master: JSON.stringify({ REGION_ID: regioesSelect }) }).then(rs => rs.json()).then(res => {
+        //     if (res.return) {
+        //         load()
+        //         setSearchFilter('')
+        //         setStateFilter(null)
+        //         setCidades([])
+        //         onModal()
+        //     } else { Modal.warning({ title: 'Algo deu errado', content: res.msg }) }
+        // }).catch(POST_CATCH).finally(() => setLoadSend(false))
     }
 
     useEffect(() => {
@@ -114,7 +127,7 @@ const Regioes = () => {
             <Button onClick={onModal} type="primary" style={{marginTop: '1em'}}>Adicionar Região</Button>
             <Modal title="Adicionar Região" open={modal} onCancel={onModal} cancelText="Fechar" okText="Salvar" maskClosable={false} onOk={onSend} confirmLoading={loadSend}>
                 <Row gutter={[8,8]} style={{flexWrap: 'nowrap'}}>
-                    <Col flex={'10em'}><SelectSearch effect={''} placeholder="Estado" url="/state/select.php" value={stateFilter} change={(v:any) => setStateFilter(v?.value)}/></Col>
+                    <Col flex={'10em'}><SelectSearch effect={''} placeholder="Estado" url="/state" value={stateFilter} change={(v:any) => setStateFilter(v?.value)} labelField={['acronym', 'name']} /></Col>
                     <Col flex={'auto'}><Input.Search placeholder="Pesquisar cidade..." onSearch={onRender} style={{marginBottom: '0.6em'}} value={searchFilter} onChange={(v:any) => setSearchFilter(v.target.value)} loading={loading} /></Col>
                 </Row>
                 <Row gutter={[8,8]}>

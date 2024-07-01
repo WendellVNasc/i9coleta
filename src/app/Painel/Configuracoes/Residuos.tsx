@@ -22,7 +22,7 @@ const Residuos = () => {
 
     // DEFINE COLUNAS DA TABELA
     const column = [
-        { title: 'Grupo de Resíduo', dataIndex: 'NAME', table: 'reside.NAME', width: 'auto', sorter: true, align: 'center', render: (item:any) => <Row style={{width: '100%'}}><Col span={24}>{item.NAME+'- '+item.DESC}</Col></Row> },
+        { title: 'Grupo de Resíduo', dataIndex: 'name', table: 'residues.name', width: 'auto', sorter: true, align: 'center', render: (item:any) => <Row style={{width: '100%'}}><Col span={24}>{item.name+' - '+item.description}</Col></Row> },
         { title: 'Ações', dataIndex: null, width: '60px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <Col><TbCheck size={18} className="actions-button" onClick={() => onSend(item)}/></Col>
@@ -43,9 +43,9 @@ const Residuos = () => {
 
     const onSend = ( item:any ) => {
         Modal.confirm({
-            title: 'Adicionar resíduo "'+item.NAME+' - '+item.DESC+'"?', icon: <ExclamationCircleOutlined />, cancelText: 'Não', okText: 'Sim',
+            title: 'Adicionar resíduo "'+item.name+' - '+item.description+'"?', icon: <ExclamationCircleOutlined />, cancelText: 'Não', okText: 'Sim',
             onOk() {
-                POST_API('/credential_reside/save.php', { token: getToken(), master: JSON.stringify({ RESIDE_ID: item.ID }) }).then(rs => rs.json()).then(res => {
+                POST_API('/user_residue', { token: getToken(), master: JSON.stringify({ residue_id: item.id }) }).then(rs => rs.json()).then(res => {
                     if (res.return) {
                         load()
                         onModal()
@@ -94,7 +94,7 @@ const Residuos = () => {
             <Modal title="Adicionar Resíduo" open={modal} onCancel={onModal} cancelText="Fechar" okText="Salvar" maskClosable={false} onOk={onSend} confirmLoading={loadSend}>
                 <Table
                     column={column}
-                    path={'reside'}
+                    path={'residue'}
                     type={'list'}
                     action={null}
                 />

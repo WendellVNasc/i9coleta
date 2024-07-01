@@ -98,17 +98,14 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
     POST_API(`/${path}`, values, ID)
       .then((rs) => {
         if (rs.ok) {
-          return rs.json();
+            message.success("Salvo com sucesso!");
+            navigate("..");
         } else {
           Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
       })
-      .then((data) => {
-        message.success("Salvo com sucesso!");
-        navigate("..");
-      })
       .catch(POST_CATCH)
-      .finally(() => setLoadButton(false));
+      .finally(() => setLoadButton(false)); 
   };
 
   const onReside = (value: any, item: any) => {

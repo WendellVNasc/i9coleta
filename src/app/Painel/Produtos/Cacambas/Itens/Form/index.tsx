@@ -65,35 +65,17 @@ const CacambasItensForm = ({ type, path, permission }: PageDefaultProps) => {
 
     values.stationary_bucket_group_id = ID;
     console.log(values);
-    POST_API(`/${path}`, values, type === "add" ? null : ID)
+    POST_API(`/${path}`, values, ID)
       .then((rs) => {
         if (rs.ok) {
-          return rs.json();
+            message.success("Salvo com sucesso!");
+            navigate("..");
         } else {
           Modal.warning({ title: "Algo deu errado", content: rs.statusText });
         }
       })
-      .then((data) => {
-        message.success("Salvo com sucesso!");
-        navigate("..");
-      })
       .catch(POST_CATCH)
-      .finally(() => setLoadButton(false));
-    // POST_API(`/${path}/save.php`, {
-    //   token: getToken(),
-    //   master: JSON.stringify(values),
-    // })
-    //   .then((rs) => rs.json())
-    //   .then((res) => {
-    //     if (res.return) {
-    //       message.success(res.msg);
-    //       navigate("..");
-    //     } else {
-    //       Modal.warning({ title: "Algo deu errado", content: res.msg });
-    //     }
-    //   })
-    //   .catch(POST_CATCH)
-    //   .finally(() => setLoadButton(false));
+      .finally(() => setLoadButton(false)); 
   };
 
   return (

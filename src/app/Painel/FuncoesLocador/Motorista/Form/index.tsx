@@ -43,7 +43,8 @@ const MotoristaForm = ( { type, path, permission } : PageDefaultProps ) => {
     // FUNÇÃO SALVAR
     const onSend = (values: any) => {
         setLoadButton(true)
-        values.ID = ID
+        POST_API(`/${path}`, values, ID)
+        values.id = ID
         POST_API(`/${path}/save.php`, { token: getToken(), master: JSON.stringify(values) }).then(rs => rs.json()).then(res => {
             if (res.return) {
                 message.success(res.msg)

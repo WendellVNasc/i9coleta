@@ -26,7 +26,7 @@ const CacambasItensList = ({ type, path, permission } : PageDefaultProps ) => {
     // DEFINE COLUNAS DA TABELA
     const column = [
         { title: 'Código', dataIndex: 'code', table: 'code', width: 'auto', sorter: true, align: 'left', render: null },
-        { title: 'Situação', dataIndex: 'status', table: 'status', width: '200px', sorter: true, align: 'center', render: null },
+        { title: 'Situação', dataIndex: 'status_name', table: 'status', width: '200px', sorter: true, align: 'center', render: null },
         { title: 'Ações', dataIndex: null, width: '120px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <TableTrQrCodeButton type={type} permission={permission} item={item} />

@@ -36,7 +36,7 @@ const VeiculoForm = ({ type, path, permission }: PageDefaultProps) => {
 
   // ANOS
   const years = Array.from(
-    { length: 20 },
+    { length: 30 },
     (_, index) => new Date().getFullYear() + 2 - index
   );
 
@@ -65,6 +65,7 @@ const VeiculoForm = ({ type, path, permission }: PageDefaultProps) => {
 
   // FUNÇÃO SALVAR
   const onSend = (values: any) => {
+    console.log(values)
     setLoadButton(true);
     POST_API(`/vehicle`, values, ID)
       .then((rs) => {
@@ -178,12 +179,11 @@ const VeiculoForm = ({ type, path, permission }: PageDefaultProps) => {
                       ]}
                     >
                       <Select showSearch placeholder="Ano Fabricação">
-                        {" "}
                         {years.map((v, i) => (
                           <Select.Option value={v} key={i}>
                             {v}
                           </Select.Option>
-                        ))}{" "}
+                        ))}
                       </Select>
                     </Form.Item>
                   </Col>
@@ -196,12 +196,11 @@ const VeiculoForm = ({ type, path, permission }: PageDefaultProps) => {
                       ]}
                     >
                       <Select showSearch placeholder="Ano Modelo">
-                        {" "}
                         {years.map((v, i) => (
                           <Select.Option value={v} key={i}>
                             {v}
                           </Select.Option>
-                        ))}{" "}
+                        ))}
                       </Select>
                     </Form.Item>
                   </Col>
