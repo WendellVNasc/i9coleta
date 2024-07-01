@@ -49,7 +49,7 @@ function Table({
   type,
   action,
   useFilter = [],
-  defaultFilter = null,
+  defaultFilter = [],
 }: TableInterface) {
   // ESTADOS DO COMPONENTE
   const [data, setData] = useState([]);
@@ -100,8 +100,8 @@ function Table({
       }
     });
 
-    if (type === 'trash') {
-      url += `&trash=true`
+    if (type === "trash") {
+      url += `&trash=true`;
     }
 
     await GET_API(url)
