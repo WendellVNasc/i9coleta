@@ -93,8 +93,6 @@ const CacambasForm = ({ type, path, permission }: PageDefaultProps) => {
   // FUNÇÃO SALVAR
   const onSend = (values: any) => {
     setLoadButton(true);
-    values.ID = ID;
-    values.RESIDES = resideSelect;
     POST_API(`/${path}`, values, ID)
       .then((rs) => {
         if (rs.ok) {

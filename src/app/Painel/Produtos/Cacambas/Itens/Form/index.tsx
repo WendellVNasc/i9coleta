@@ -64,8 +64,7 @@ const CacambasItensForm = ({ type, path, permission }: PageDefaultProps) => {
     // values.id = ID2;
 
     values.stationary_bucket_group_id = ID;
-    console.log(values);
-    POST_API(`/${path}`, values, ID)
+    POST_API(`/${path}`, values, ID2)
       .then((rs) => {
         if (rs.ok) {
             message.success("Salvo com sucesso!");
