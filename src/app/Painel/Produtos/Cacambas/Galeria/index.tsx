@@ -57,13 +57,12 @@ const CacambasGaleria = ({ type, path, permission }: PageDefaultProps) => {
       ),
       group_id: ID,
     })
-      .then((rs) => rs.json())
-      .then((res) => {
-        if (res.return) {
+      .then((rs) => {
+        if (rs.ok) {
           setFileList([]);
           onLoad();
         } else {
-          Modal.warning({ title: "Algo deu errado", content: res.msg });
+          Modal.warning({ title: "Algo deu errado", content: 'Não foi possível salvar foto' });
         }
       })
       .catch(POST_CATCH)

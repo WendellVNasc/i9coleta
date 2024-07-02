@@ -317,17 +317,14 @@ export const TableTrTrashButton = ({
         DELETE_API(`/${path}/${item.id}`)
           .then((rs) => {
             if (rs.ok) {
-              return rs.json();
+              message.success({ content: 'Deletado com sucesso', key: "screen" });
+              action();
             } else {
               Modal.warning({
                 title: "Algo deu errado",
-                content: rs.statusText,
+                content: "Não foi possível deletar registro.",
               });
             }
-          })
-          .then((res) => {
-            message.success({ content: res.message, key: "screen" });
-            action();
           })
           .catch(POST_CATCH);
       },

@@ -11,7 +11,7 @@ import CardCacamba from "../../../../components/CardCacamba";
 import ModalFiltros from "../../../../components/ModalFiltros";
 
 // SERVIÇOS
-import { POST_API, getToken } from "../../../../services";
+import { GET_API } from "../../../../services";
 
 // CSS
 import './style.css'
@@ -34,7 +34,7 @@ const PedirCacambaFornecedor = () => {
     const [ cacambas, setCacambas ] = useState<any[]>([])
 
     const onView = () => {
-        POST_API('/provider/search.php', { token: getToken(), filter: JSON.stringify({ ID: ID }), type: 'view' }).then(rs => rs.json()).then(res => {
+        GET_API(`/user/${ID}`).then(rs => rs.json()).then(res => {
             setFornecedor(res.data)
         })
     } 
@@ -43,11 +43,13 @@ const PedirCacambaFornecedor = () => {
     const loadCacambas = () => {
         setCacambasLoading(true);
         setTimeout(() => {
-            POST_API('/stationary_bucket_group/search_locatario.php', { token: getToken(), filter: JSON.stringify({ CREDENTIAL_ID: ID, STOCK_VALID: true }), pagination: JSON.stringify({ current: 1, total: 0, page: 10 }), search: cacambasSearch }).then(rs => rs.json()).then(res => {
+            GET_API(`/stationary_bucket_group?page=${cacambasPage}&per_page=10&user_id=${ID}`)
+            .then((rs) => rs.json())
+            .then((res) => {
                 setCacambas(res.data)
                 setCacambasPage(2)
-                setCacambasTotal(Number(res.summary.QTDE))
-            }).finally(() => setCacambasLoading(false))
+                setCacambasTotal(Number(res.meta.total))
+            }).finally(() => setCacambasLoading(false));
         }, 500);
     }
 
@@ -55,11 +57,13 @@ const PedirCacambaFornecedor = () => {
     const moreCacambas = () => {
         setCacambasLoadingMore(true);
         setTimeout(() => {
-            POST_API('/stationary_bucket_group/search_locatario.php', { token: getToken(), filter: JSON.stringify({ CREDENTIAL_ID: ID, STOCK_VALID: true }), pagination: JSON.stringify({ current: cacambasPage, total: 0, page: 10 }), search: cacambasSearch }).then(rs => rs.json()).then(res => {
-                setCacambas([ ...cacambas, ...res.data])
-                setCacambasTotal(Number(res.summary.QTDE))
+            GET_API(`/stationary_bucket_group?page=${cacambasPage}&per_page=10&user_id=${ID}`)
+            .then((rs) => rs.json())
+            .then((res) => {
+                setCacambas([...cacambas, ...res.data])
                 setCacambasPage(cacambasPage+1)
-            }).finally(() => setCacambasLoadingMore(false))
+                setCacambasTotal(Number(res.meta.total))
+            }).finally(() => setCacambasLoading(false));
         }, 500);
     }
 
@@ -71,25 +75,25 @@ const PedirCacambaFornecedor = () => {
     return (
         <PageDefault valid={true} items={[
             { title: <Link to="/painel/pedircacamba">Pedir Caçamba</Link>, },
-            { title: fornecedor?.NAME }
+            { title: fornecedor?.name }
         ]}>
             { fornecedor === null ? <LoadItem /> : (
                 <Row gutter={[8,8]}>
                     <Col span={24}>
                         <CardItem>
                             <Row gutter={[16,16]} style={{flexWrap: 'nowrap'}}>
-                                <Col flex={'100px'}> <Avatar size={100} src={fornecedor?.PHOTO} /> </Col>
+                                <Col flex={'100px'}> <Avatar size={100} src={fornecedor?.photo} /> </Col>
                                 <Col flex={'auto'}>
-                                    <Typography className="pdf-name">{fornecedor?.NAME}</Typography>
+                                    <Typography className="pdf-name">{fornecedor?.name}</Typography>
                                     <Typography className="pdf-subtitle"><span className='star'><IoStar style={{marginRight: '0.2em'}} /> 0 </span> • 0 Km</Typography>
-                                    <Typography className="pdf-desc">{fornecedor?.DESCRIPTION}</Typography>
+                                    <Typography className="pdf-desc">{fornecedor?.description}</Typography>
                                 </Col>
                             </Row>
                         </CardItem>
                     </Col>
                     <Col span={24}>
                         <CardItem>
-                            <Input.Search allowClear enterButton="Procurar" onSearch={setCacambasSearch} prefix={<IoSearch color="var(--color02)" />} size="large" placeholder={`Buscar em ${fornecedor?.NAME}`} />
+                            <Input.Search allowClear enterButton="Procurar" onSearch={setCacambasSearch} prefix={<IoSearch color="var(--color02)" />} size="large" placeholder={`Buscar em ${fornecedor?.name}`} />
                         </CardItem>
                     </Col>
                     <Col span={24}>

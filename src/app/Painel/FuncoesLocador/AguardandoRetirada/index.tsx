@@ -107,7 +107,7 @@ const AguardandoRetiradaList = ({ type, path, permission } : PageDefaultProps ) 
     useEffect(() => load(), [])
 
     return (
-        <PageDefault valid={`${permission}.${type}`} items={[
+        <PageDefault valid={`ffn.vrp`} items={[
             { title: 'Aguardando Retirada' }
         ]}>
             <Row gutter={[16,16]}>

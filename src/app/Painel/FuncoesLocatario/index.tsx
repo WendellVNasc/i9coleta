@@ -59,14 +59,14 @@ const PedirCacamba = () => {
       .then((res) => {
         setLocadores([...locadores, ...res.data]);
         setLocadoresPage(locadoresPage + 1);
-        // setLocadoresVerMais(!(Number(res.summary.QTDE) === locadores.length));
+        setLocadoresVerMais(!(Number(res.meta.total) === locadores.length));
       })
       .finally(() => setLocadoresLoading(false));
   };
 
   // CARREGA CAÇAMBAS
   const loadCacambas = () => {
-    GET_API("/stationary_bucket_group?page=1&per_page=4")
+    GET_API("/stationary_bucket_group?page=1&per_page=4&shop=true")
       .then((rs) => rs.json())
       .then((res) => {
         setCacambas(res.data);
@@ -83,7 +83,7 @@ const PedirCacamba = () => {
 
     loadModel();
     loadCacambas();
-    // loadLocadores();
+    loadLocadores();
 
     setLoad(false);
   }, []);

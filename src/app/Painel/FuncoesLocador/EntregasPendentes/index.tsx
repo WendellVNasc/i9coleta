@@ -107,7 +107,7 @@ const EntregasPendentesList = ({ type, path, permission } : PageDefaultProps ) =
     useEffect(() => load(), [])
 
     return (
-        <PageDefault valid={`${permission}.${type}`} items={[
+        <PageDefault valid={`ffn.vrp`} items={[
             { title: 'Entregas Pendentes' }
         ]}>
             <Row gutter={[16,16]}>

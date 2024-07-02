@@ -73,7 +73,7 @@ const EmTransitoDescarteList = ({ type, path, permission } : PageDefaultProps ) 
     useEffect(() => onLoadMap(), [product])
 
     return (
-        <PageDefault valid={`${permission}.${type}`} items={[
+        <PageDefault valid={`ffn.vrp`} items={[
             { title: 'Em Trânsito Descarte' }
         ]}>
             <Row gutter={[16,16]}>

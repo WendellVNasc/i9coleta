@@ -97,7 +97,7 @@ const LocadasList = ({ type, path, permission } : PageDefaultProps ) => {
     useEffect(() => onLoadMap(), [product])
 
     return (
-        <PageDefault valid={`${permission}.${type}`} items={[
+        <PageDefault valid={`ffn.vrp`} items={[
             { title: 'Locadas' }
         ]}>
             <Row gutter={[16,16]}>

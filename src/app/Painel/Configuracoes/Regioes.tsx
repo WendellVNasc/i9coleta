@@ -37,7 +37,7 @@ const Regioes = () => {
         POST_API('/region/state.php', { token: getToken(), type: 'self' }).then(rs => rs.json()).then(res => {
             if (res.return) {
                 setRegioes(res.data)
-                setRegioesSelect({...regioesSelect, ...res.select})
+                // setRegioesSelect({...regioesSelect, ...res.select})
             }
         }).catch(POST_CATCH)
     }
@@ -47,26 +47,14 @@ const Regioes = () => {
             setCidades([])
             return null
         }
-        // setLoading(true)
-        GET_API('/city').then((response) => {
-            
+        
+        setLoading(true);
+        GET_API(`/city_search?search=${searchFilter}&state_id=${stateFilter}`).then((response) => {
             response.json().then((res) => {
-                console.log(res.data)
                 setCidades(res.data) 
+                setSummary(res.summary)
             })
-            // if (!response.ok) {
-            //     Modal.warning({ title: "Algo deu errado" });
-            // }
-            // response.json() .then((res) => { setCidades(res.data) })
-            // .catch((error) => {});
-      })
-      .catch((error) => {});
-        // GET_API('/city').then(rs => rs.json()).then(res => {
-        //     if (res.return) {
-        //         setCidades(res.data)
-        //         console.log
-        //     }
-        // }).catch(POST_CATCH).finally(() => setLoading(false))
+        }).catch(POST_CATCH).finally(() => setLoading(false));
     }
 
     const onModal = () => setModal(!modal)
@@ -74,9 +62,9 @@ const Regioes = () => {
     const onSelectOne = ( item:any, value:any ) => {
         setLoadCheck(true)
         if ( value ) {
-            regioesSelect[item.STATE_ONLY_NAME].push(item.ID)
+            regioesSelect[item.state_only_name].push(item.id)
         } else {
-            regioesSelect[item.STATE_ONLY_NAME].splice( regioesSelect[item.STATE_ONLY_NAME].indexOf(item.ID), 1)
+            regioesSelect[item.state_only_name].splice( regioesSelect[item.state_only_name].indexOf(item.id), 1)
         }
         setTimeout(() => {
             setLoadCheck(false)
@@ -87,7 +75,7 @@ const Regioes = () => {
         var temp:any = cidades.filter(function(obj) { return obj.state === item.state; })[0]
         setLoadCheck(true)
         if ( value ) {
-            temp.list.map((v:any) => regioesSelect[item.state].includes( v.ID ) ? null : regioesSelect[item.state].push(v.ID))
+            temp.list.map((v:any) => regioesSelect[item.state].includes( v.id ) ? null : regioesSelect[item.state].push(v.id))
         } else {
             regioesSelect[item.state] = []
         }
@@ -97,7 +85,9 @@ const Regioes = () => {
     }
 
     const onSend = () => {
-        // setLoadSend(true)
+        setLoadSend(true)
+        console.log(regioesSelect)
+        // POST_API('/city_user')
         // POST_API('/region/save.php', { token: getToken(), master: JSON.stringify({ REGION_ID: regioesSelect }) }).then(rs => rs.json()).then(res => {
         //     if (res.return) {
         //         load()
@@ -114,7 +104,7 @@ const Regioes = () => {
     }, [])
 
     return (
-        <CardItem title="Regiões de atuação">
+        <CardItem title="Cidades de atuação">
             { regioes.length > 0 ? (
                 <Collapse size="small">
                     { regioes.map((v:any, i:any) => (
@@ -123,9 +113,9 @@ const Regioes = () => {
                         </Collapse.Panel>
                     )) }
                 </Collapse>
-            ) : <Typography>Nenhuma região cadastrada</Typography> }
+            ) : <Typography>Nenhuma cidade cadastrada</Typography> }
             <Button onClick={onModal} type="primary" style={{marginTop: '1em'}}>Adicionar Região</Button>
-            <Modal title="Adicionar Região" open={modal} onCancel={onModal} cancelText="Fechar" okText="Salvar" maskClosable={false} onOk={onSend} confirmLoading={loadSend}>
+            <Modal title="Adicionar Cidade" open={modal} onCancel={onModal} cancelText="Fechar" okText="Salvar" maskClosable={false} onOk={onSend} confirmLoading={loadSend}>
                 <Row gutter={[8,8]} style={{flexWrap: 'nowrap'}}>
                     <Col flex={'10em'}><SelectSearch effect={''} placeholder="Estado" url="/state" value={stateFilter} change={(v:any) => setStateFilter(v?.value)} labelField={['acronym', 'name']} /></Col>
                     <Col flex={'auto'}><Input.Search placeholder="Pesquisar cidade..." onSearch={onRender} style={{marginBottom: '0.6em'}} value={searchFilter} onChange={(v:any) => setSearchFilter(v.target.value)} loading={loading} /></Col>
@@ -136,7 +126,7 @@ const Regioes = () => {
                             <Card title={ loadCheck ? <Checkbox checked={ regioesSelect[v.state].length === Number(summary[v.state].QTDE) } indeterminate={ regioesSelect[v.state].length > 0 && regioesSelect[v.state].length !== Number(summary[v.state].QTDE) } onClick={(value:any) => onSelectAll(v, value.target.checked)}>{v.state}</Checkbox> :<Checkbox checked={ regioesSelect[v.state].length === Number(summary[v.state].QTDE) } indeterminate={ regioesSelect[v.state].length > 0 && regioesSelect[v.state].length !== Number(summary[v.state].QTDE) } onClick={(value:any) => onSelectAll(v, value.target.checked)}>{v.state}</Checkbox>} size="small" hoverable>
                                 <Row gutter={[4, 4]}>
                                     { v.list.map((v1:any, i1:any) => (
-                                        <Col key={i1}>{ loadCheck ? <Checkbox checked={ regioesSelect[v.state].includes(v1.ID) } onClick={(value:any) => onSelectOne(v1, value.target.checked)}>{v1.NAME}</Checkbox> : <Checkbox checked={ regioesSelect[v.state].includes(v1.ID) } onClick={(value:any) => onSelectOne(v1, value.target.checked)}>{v1.NAME}</Checkbox> }</Col>
+                                        <Col key={i1}>{ loadCheck ? <Checkbox checked={ regioesSelect[v.state].includes(v1.id) } onClick={(value:any) => onSelectOne(v1, value.target.checked)}>{v1.NAME}</Checkbox> : <Checkbox checked={ regioesSelect[v.state].includes(v1.id) } onClick={(value:any) => onSelectOne(v1, value.target.checked)}>{v1.NAME}</Checkbox> }</Col>
                                     )) }
                                 </Row>
                             </Card>

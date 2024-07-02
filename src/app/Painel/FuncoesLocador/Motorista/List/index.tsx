@@ -48,7 +48,7 @@ const MotoristaList = ({ type, path, permission }: PageDefaultProps) => {
     {
       title: "E-mail",
       dataIndex: "email",
-      table: "user.email",
+      table: "email",
       width: "200px",
       sorter: true,
       align: "center",
@@ -65,7 +65,7 @@ const MotoristaList = ({ type, path, permission }: PageDefaultProps) => {
     },
     {
       title: "Vencimento CNH",
-      dataIndex: "cnh_expiration_date",
+      dataIndex: "cnh_expiration_date_format",
       table: "cnh_expiration_date",
       width: "180px",
       sorter: true,
@@ -86,21 +86,21 @@ const MotoristaList = ({ type, path, permission }: PageDefaultProps) => {
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path={path}
+            path={'user'}
           />
           <TableTrRecoverButton
             type={type}
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path={path}
+            path={'user'}
           />
           <TableTrPassword
             type={type}
             permission={permission}
             item={item}
             action={() => setAction(!action)}
-            path={path}
+            path={'user'}
           />
         </Row>
       ),

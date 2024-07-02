@@ -19,15 +19,15 @@ const EquipeList = ({ type, path, permission } : PageDefaultProps ) => {
 
     // DEFINE COLUNAS DA TABELA
     const column = [
-        { title: 'Login', dataIndex: 'LOGIN', table: 'credential.LOGIN', width: '200px', sorter: true, align: 'center', render: null },
-        { title: 'Nome', dataIndex: 'NAME', table: 'credential.NAME', width: 'auto', minWidth: '240px', sorter: true, align: 'left', render: null },
-        { title: 'E-mail', dataIndex: 'EMAIL_01', table: 'credential.EMAIL_01', width: '200px', sorter: true, align: 'center', render: null },
+        { title: 'Login', dataIndex: 'document_number', table: 'document_number', width: '200px', sorter: true, align: 'center', render: null },
+        { title: 'Nome', dataIndex: 'name', table: 'name', width: 'auto', minWidth: '240px', sorter: true, align: 'left', render: null },
+        { title: 'E-mail', dataIndex: 'email', table: 'email', width: '200px', sorter: true, align: 'center', render: null },
         { title: 'Ações', dataIndex: null, width: '100px', sorter: false, align: 'center', render: (item: any) => (
             <Row justify={'center'} style={{width: '100%'}}>
                 <TableTrEditButton type={type} permission={permission} item={item} />
-                <TableTrTrashButton type={type} permission={permission} item={item} action={() => setAction(!action)} path={path} />
-                <TableTrRecoverButton type={type} permission={permission} item={item} action={() => setAction(!action)} path={path} />
-                <TableTrPassword type={type} permission={permission} item={item} action={() => setAction(!action)} path={path} />
+                <TableTrTrashButton type={type} permission={permission} item={item} action={() => setAction(!action)} path={'user'} />
+                <TableTrRecoverButton type={type} permission={permission} item={item} action={() => setAction(!action)} path={'user'} />
+                <TableTrPassword type={type} permission={permission} item={item} action={() => setAction(!action)} path={'user'} />
             </Row>
         ) },
     ]

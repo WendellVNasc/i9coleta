@@ -51,7 +51,7 @@ const PedidosList = ({ type, path, permission } : PageDefaultProps ) => {
     ]
 
     return (
-        <PageDefault valid={`${permission}.${type}`} items={[
+        <PageDefault valid={`ffn.vrp`} items={[
             { title: 'Pedidos' }
         ]}>
             <Row gutter={[16,16]}>

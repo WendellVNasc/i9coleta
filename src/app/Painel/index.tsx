@@ -378,37 +378,37 @@ const Painel = () => {
                       children={[
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "pedidoscacamba",
                           name: "Pedidos Realizados",
                         },
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "entregaspendentes",
                           name: "Entregas Pendentes",
                         },
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "emtransitolocacao",
                           name: "Em Trânsito Locação",
                         },
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "locadas",
                           name: "Locadas",
                         },
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "aguardandoretirada",
                           name: "Aguardando Retirada",
                         },
                         {
                           url: url,
-                          permission: "lcc.list",
+                          permission: "ffn.vrp",
                           route: "emtransitodescarte",
                           name: "Em Trânsito Descarte",
                         },

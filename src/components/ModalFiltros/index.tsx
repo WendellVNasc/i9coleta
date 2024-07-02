@@ -9,7 +9,7 @@ import { BsCurrencyDollar, BsPinMap, BsSortDownAlt, BsStar } from "react-icons/b
 
 // CSS
 import './style.css';
-import { POST_API, getToken } from "../../services";
+import { GET_API, POST_API, getToken } from "../../services";
 
 // INTERFACE
 interface ModalFiltrosInterface {
@@ -48,7 +48,7 @@ const ModalFiltros = ( { open, close } : ModalFiltrosInterface ) => {
     }
 
     const onResidue = () => {
-        POST_API('/reside/search.php', { token: getToken() }).then(rs => rs.json()).then(res => {
+        GET_API('/residue').then(rs => rs.json()).then(res => {
             setResidue(res.data)
         })
     }
@@ -132,7 +132,7 @@ const ModalFiltros = ( { open, close } : ModalFiltrosInterface ) => {
                                 <Typography className="mf-title">Selecionar resíduos</Typography>
                                 <Row gutter={[4,4]}>
                                     { residue.map((v:any, i:any) =>
-                                        loadResidue ? <Col><Tag onClick={() => onResidueSelect(Number(v.ID))} className={`mf-tag ${residueSelect.includes(Number(v.ID)) ? 'active' : ''}`}>{v.NAME}</Tag></Col> : <Col><Tag onClick={() => onResidueSelect(Number(v.ID))} className={`mf-tag ${residueSelect.includes(Number(v.ID)) ? 'active' : ''}`}>{v.NAME}</Tag></Col>
+                                        loadResidue ? <Col><Tag onClick={() => onResidueSelect(Number(v.id))} className={`mf-tag ${residueSelect.includes(Number(v.id)) ? 'active' : ''}`}>{v.name}</Tag></Col> : <Col><Tag onClick={() => onResidueSelect(Number(v.id))} className={`mf-tag ${residueSelect.includes(Number(v.id)) ? 'active' : ''}`}>{v.name}</Tag></Col>
                                     ) }
                                 </Row>
                             </Col>

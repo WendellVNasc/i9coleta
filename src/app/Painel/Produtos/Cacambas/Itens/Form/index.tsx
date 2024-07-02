@@ -42,7 +42,7 @@ const CacambasItensForm = ({ type, path, permission }: PageDefaultProps) => {
       setLoad(false);
     } else {
       setLoad(true);
-      GET_API(`/${path}/${ID}`)
+      GET_API(`/${path}/${ID2}`)
         .then((rs) => {
           if (rs.ok) {
             return rs.json();

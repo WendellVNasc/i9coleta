@@ -19,10 +19,10 @@ const CardLocador = ( { item } : CardLocadorInterface ) => {
     const navigate = useNavigate()
 
     return (
-        <div className="card-locador" onClick={() => navigate(`/painel/pedircacamba/fornecedor/${item?.ID}`)}>
-            <Avatar className="card-locador-avt" size={80} src={item?.PHOTO} />
+        <div className="card-locador" onClick={() => navigate(`/painel/pedircacamba/fornecedor/${item?.id}`)}>
+            <Avatar className="card-locador-avt" size={80} src={item?.photo} />
             <div style={{marginLeft: '1em'}}>
-                <Typography className="card-locador-title">{item?.NAME}</Typography>
+                <Typography className="card-locador-title">{item?.name}</Typography>
                 <Typography className="card-locador-subtitle"><span className='star'><IoStar style={{marginRight: '0.2em'}} /> 0 </span> • 0 Km</Typography>
             </div>
         </div>

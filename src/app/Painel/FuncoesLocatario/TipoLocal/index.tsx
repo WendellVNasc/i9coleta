@@ -11,7 +11,7 @@ import CardCacamba from "../../../../components/CardCacamba";
 import ModalFiltros from "../../../../components/ModalFiltros";
 
 // SERVIÇOS
-import { POST_API, getToken } from "../../../../services";
+import { GET_API  } from "../../../../services";
 
 // CSS
 import './style.css'
@@ -36,11 +36,13 @@ const PedirCacambaTipoLocal = () => {
     const loadCacambas = () => {
         setCacambasLoading(true);
         setTimeout(() => {
-            POST_API('/stationary_bucket_group/search_locatario.php', { token: getToken(), filter: JSON.stringify({ TYPE_LOCAL: TYPE_LOCAL, STOCK_VALID: true }), pagination: JSON.stringify({ current: 1, total: 0, page: 10 }), search: cacambasSearch }).then(rs => rs.json()).then(res => {
+            GET_API(`/stationary_bucket_group?page=${cacambasPage}&per_page=10&type_local=${TYPE_LOCAL}`)
+            .then((rs) => rs.json())
+            .then((res) => {
                 setCacambas(res.data)
                 setCacambasPage(2)
-                setCacambasTotal(Number(res.summary.QTDE))
-            }).finally(() => setCacambasLoading(false))
+                setCacambasTotal(Number(res.meta.total))
+            }).finally(() => setCacambasLoading(false));
         }, 500);
     }
 
@@ -48,11 +50,13 @@ const PedirCacambaTipoLocal = () => {
     const moreCacambas = () => {
         setCacambasLoadingMore(true);
         setTimeout(() => {
-            POST_API('/stationary_bucket_group/search_locatario.php', { token: getToken(), filter: JSON.stringify({ TYPE_LOCAL: TYPE_LOCAL, STOCK_VALID: true }), pagination: JSON.stringify({ current: cacambasPage, total: 0, page: 10 }), search: cacambasSearch }).then(rs => rs.json()).then(res => {
-                setCacambas([ ...cacambas, ...res.data])
-                setCacambasTotal(Number(res.summary.QTDE))
+            GET_API(`/stationary_bucket_group?page=${cacambasPage}&per_page=10&type_local=${TYPE_LOCAL}`)
+            .then((rs) => rs.json())
+            .then((res) => {
+                setCacambas([...cacambas, ...res.data])
                 setCacambasPage(cacambasPage+1)
-            }).finally(() => setCacambasLoadingMore(false))
+                setCacambasTotal(Number(res.meta.total))
+            }).finally(() => setCacambasLoading(false));
         }, 500);
     }
 
